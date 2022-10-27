@@ -1,9 +1,18 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/screens/splashscreen/splash_screen.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  if(!Hive.isAdapterRegistered(MuzicModelAdapter().typeId)){
+    Hive.registerAdapter(MuzicModelAdapter());
+  }
+  await Hive.openBox<int>('FavoriteDB');
+
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
     androidNotificationChannelName: 'Audio playback',

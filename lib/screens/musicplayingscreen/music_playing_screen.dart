@@ -52,6 +52,14 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
         ),
       ),
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: (() => Navigator.pop(context)),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Padding(
@@ -156,7 +164,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                 icon: StreamBuilder<bool>(
                                   stream: GetAllSongController
                                       .audioPlayer.shuffleModeEnabledStream,
-                                  builder: (context, AsyncSnapshot snapshot) {
+                                  builder: (BuildContext context, AsyncSnapshot snapshot) {
                                     _isShuffle = snapshot.data;
                                     if (_isShuffle) {
                                       return Icon(

@@ -1,7 +1,8 @@
 import 'package:hive/hive.dart';
+part 'muzic_model.g.dart';
 
 @HiveType(typeId: 1)
-class MuzicModel {
+class MuzicModel extends HiveObject {
   MuzicModel({
     required this.name,
     required this.songId,
@@ -15,12 +16,12 @@ class MuzicModel {
 
   add(int id) async {
     songId.add(id);
-    //save();
+    save();
   }
 
   deleteData(int id) {
     songId.remove(id);
-    //save();
+    save();
   }
 
   bool isValueIn(int id) {

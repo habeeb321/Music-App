@@ -3,13 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/db/functions/favorite_db.dart';
+import 'package:music_app/screens/favoritescreen/favorite_button.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AllSongsListView extends StatefulWidget {
   const AllSongsListView({super.key});
-  static List<SongModel> song = [];
+  static List<SongModel> startSong = [];
 
   @override
   State<AllSongsListView> createState() => _AllSongsListViewState();
@@ -64,7 +66,11 @@ class _AllSongsListViewState extends State<AllSongsListView> {
             ),
           ));
         }
-
+        AllSongsListView.startSong = item.data!;
+        if(!FavoriteDb.isInitialized){
+          FavoriteDb.intialize(item.data!);
+        }
+        
         return ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
@@ -75,7 +81,7 @@ class _AllSongsListViewState extends State<AllSongsListView> {
                 borderRadius: BorderRadius.circular(10),
               ),
               minVerticalPadding: 10.0,
-              tileColor: const Color.fromARGB(255, 231, 232, 238),
+              tileColor: const Color.fromARGB(255, 212, 231, 255),
               contentPadding: const EdgeInsets.all(0),
               leading: Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -93,18 +99,20 @@ class _AllSongsListViewState extends State<AllSongsListView> {
               trailing: Wrap(
                 children: [
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.playlist_add,)),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.favorite,)),
+                    onPressed: () {},
+                    icon: const Icon(Icons.playlist_add),
+                  ),
+                  FavoriteButton(
+                      songFavorite: AllSongsListView.startSong[index]),
                 ],
               ),
               onTap: () {
                 GetAllSongController.audioPlayer.setAudioSource(
-                      GetAllSongController.createSongList(
-                        item.data!,
-                      ),
-                      initialIndex: index);
-                  GetAllSongController.audioPlayer.play();
+                    GetAllSongController.createSongList(
+                      item.data!,
+                    ),
+                    initialIndex: index);
+                GetAllSongController.audioPlayer.play();
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return MusicPlayingScreen(
                     songModelList: item.data!,

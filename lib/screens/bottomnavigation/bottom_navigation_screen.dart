@@ -54,20 +54,21 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               topRight: Radius.circular(20.0),
             ),
             child: BottomNavigationBar(
-              items: const [
+              items:  const [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home, size: 25), label: 'Home'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite, size: 25), label: 'Favorite'),
+                    icon: Icon(Icons.favorite, size: 25),
+                    label: 'Favorite'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.search, size: 25), label: 'Search'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.playlist_play, size: 25),
                     label: 'Playlist'),
               ],
-              backgroundColor: const Color.fromARGB(255, 105, 195, 241),
-              selectedItemColor: Colors.black,
-              unselectedItemColor: Colors.grey.shade700,
+              backgroundColor: const Color.fromARGB(255, 76, 104, 244),
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.white70,
               showUnselectedLabels: true,
               type: BottomNavigationBarType.fixed,
               currentIndex: currentIndex,
