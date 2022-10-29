@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
@@ -67,10 +66,12 @@ class _AllSongsListViewState extends State<AllSongsListView> {
           ));
         }
         AllSongsListView.startSong = item.data!;
-        if(!FavoriteDb.isInitialized){
+        if (!FavoriteDb.isInitialized) {
           FavoriteDb.intialize(item.data!);
         }
-        
+
+        GetAllSongController.songscopy = item.data!;
+
         return ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
@@ -94,8 +95,14 @@ class _AllSongsListViewState extends State<AllSongsListView> {
                   ),
                 ),
               ),
-              title: Text(item.data![index].displayNameWOExt),
-              subtitle: Text('${item.data![index].artist}'),
+              title: Text(
+                item.data![index].displayNameWOExt,
+                maxLines: 1,
+              ),
+              subtitle: Text(
+                '${item.data![index].artist == "<unknown>" ? "Unknown Artist" : item.data![index].artist}',
+                maxLines: 1,
+              ),
               trailing: Wrap(
                 children: [
                   IconButton(

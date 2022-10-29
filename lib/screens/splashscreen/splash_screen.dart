@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:music_app/screens/bottomnavigation/bottom_navigation_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/images/km0f2lw5-unscreen.gif'),
+          Lottie.asset('assets/52679-music-loader.json'),
           const SizedBox(
             height: 150,
           ),
@@ -48,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 Future<void> goToBottomNavigation(context) async {
-  Timer(const Duration(seconds: 4), (() {
+  Timer(const Duration(seconds: 2), (() {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) =>  const BottomNavigationScreen()));
     }));

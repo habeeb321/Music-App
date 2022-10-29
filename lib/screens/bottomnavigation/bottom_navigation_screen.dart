@@ -41,6 +41,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
         backgroundColor: Colors.transparent,
         body: pages[currentIndex],
         bottomNavigationBar: Container(
+          height: MediaQuery.of(context).size.height * 0.08,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(30), topLeft: Radius.circular(30)),
@@ -54,12 +55,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
               topRight: Radius.circular(20.0),
             ),
             child: BottomNavigationBar(
-              items:  const [
+              items: const [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home, size: 25), label: 'Home'),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite, size: 25),
-                    label: 'Favorite'),
+                    icon: Icon(Icons.favorite, size: 25), label: 'Favorite'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.search, size: 25), label: 'Search'),
                 BottomNavigationBarItem(

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({super.key, required this.songFavorite});
-  final SongModel songFavorite;
+class FavButMusicPlaying extends StatefulWidget {
+  const FavButMusicPlaying({super.key, required this.songFavoriteMusicPlaying});
+  final SongModel songFavoriteMusicPlaying;
 
 
   @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
+  State<FavButMusicPlaying> createState() => _FavoriteButtonState();
 }
 
-class _FavoriteButtonState extends State<FavoriteButton> {
+class _FavoriteButtonState extends State<FavButMusicPlaying> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -19,8 +19,8 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         builder: (BuildContext ctx, List<SongModel> favoriteData, Widget? child) {
           return IconButton(
             onPressed: () {
-              if (FavoriteDb.isFavor(widget.songFavorite)) {
-                FavoriteDb.delete(widget.songFavorite.id);
+              if (FavoriteDb.isFavor(widget.songFavoriteMusicPlaying)) {
+                FavoriteDb.delete(widget.songFavoriteMusicPlaying.id);
                 const snackBar = SnackBar(
                   content: Text(
                     'Removed From Favorite',
@@ -30,7 +30,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
-                FavoriteDb.add(widget.songFavorite);
+                FavoriteDb.add(widget.songFavoriteMusicPlaying);
                 const snackbar = SnackBar(
                   backgroundColor: Colors.black,
                   content: Text(
@@ -44,13 +44,14 @@ class _FavoriteButtonState extends State<FavoriteButton> {
 
               FavoriteDb.favoriteSongs.notifyListeners();
             },
-            icon: FavoriteDb.isFavor(widget.songFavorite)
+            icon: FavoriteDb.isFavor(widget.songFavoriteMusicPlaying)
                 ? Icon(
                     Icons.favorite,
                     color: Colors.red[600],
                   )
                 : const Icon(
                     Icons.favorite,
+                    color: Colors.white,
                   ),
           );
         });

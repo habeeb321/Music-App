@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
+import 'package:music_app/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class MusicPlayingScreen extends StatefulWidget {
@@ -70,31 +73,24 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                   Expanded(
                     child: Center(
                       child: GetAllSongController.audioPlayer.playing
-                          ? const CircleAvatar(
-                              radius: 130,
-                              backgroundImage: AssetImage(
-                                  'assets/images/music-playing-screen-unscreen.gif'),
-                            )
-                          : const CircleAvatar(
-                              radius: 130,
-                              backgroundImage: AssetImage(
-                                  'assets/images/output-onlineimagetools.png'),
-                            ),
+                          ? Lottie.asset(
+                              'assets/81966-girl-listening-to-music.json',animate: true)
+                          : Lottie.asset(
+                              'assets/81966-girl-listening-to-music.json',animate: false),
                     ),
                   ),
                   Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            widget.songModelList[currentIndex].displayNameWOExt,
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.white),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
+                        AnimatedText(
+                          text: widget
+                              .songModelList[currentIndex].displayNameWOExt,
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,12 +105,19 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                               style: const TextStyle(color: Colors.white),
                               maxLines: 1,
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.playlist_add,
-                                color: Colors.white,
-                              ),
+                            Row(
+                              children: [
+                                FavButMusicPlaying(
+                                    songFavoriteMusicPlaying:
+                                        widget.songModelList[currentIndex]),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.playlist_add,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -128,59 +131,65 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                               style: const TextStyle(color: Colors.white),
                             ),
                             Expanded(
-                                child: Slider(
-                              activeColor:
-                                  const Color.fromARGB(240, 102, 21, 208),
-                              inactiveColor: Colors.grey,
-                              min: const Duration(microseconds: 0)
-                                  .inSeconds
-                                  .toDouble(),
-                              value: _position.inSeconds.toDouble(),
-                              max: _duration.inSeconds.toDouble(),
-                              onChanged: (value) {
-                                setState(() {
-                                  changeToSeconds(value.toInt());
-                                  value = value;
-                                });
-                              },
-                            )),
+                              child: Slider(
+                                activeColor:
+                                    const Color.fromARGB(240, 102, 21, 208),
+                                inactiveColor: Colors.grey,
+                                min: const Duration(microseconds: 0)
+                                    .inSeconds
+                                    .toDouble(),
+                                value: _position.inSeconds.toDouble(),
+                                max: _duration.inSeconds.toDouble(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    changeToSeconds(value.toInt());
+                                    value = value;
+                                  });
+                                },
+                              ),
+                            ),
                             Text(
                               _duration.toString().split(".")[0],
                               style: const TextStyle(color: Colors.white),
                             ),
                           ],
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
-                                onPressed: () {
-                                  _isShuffle == false
-                                      ? GetAllSongController.audioPlayer
-                                          .setShuffleModeEnabled(true)
-                                      : GetAllSongController.audioPlayer
-                                          .setShuffleModeEnabled(false);
+                              onPressed: () {
+                                _isShuffle == false
+                                    ? GetAllSongController.audioPlayer
+                                        .setShuffleModeEnabled(true)
+                                    : GetAllSongController.audioPlayer
+                                        .setShuffleModeEnabled(false);
+                              },
+                              icon: StreamBuilder<bool>(
+                                stream: GetAllSongController
+                                    .audioPlayer.shuffleModeEnabledStream,
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  _isShuffle = snapshot.data;
+                                  if (_isShuffle) {
+                                    return Icon(
+                                      Icons.shuffle,
+                                      color: Colors.red[600],
+                                      size: 40,
+                                    );
+                                  } else {
+                                    return const Icon(
+                                      Icons.shuffle,
+                                      size: 30,
+                                      color: Colors.white,
+                                    );
+                                  }
                                 },
-                                icon: StreamBuilder<bool>(
-                                  stream: GetAllSongController
-                                      .audioPlayer.shuffleModeEnabledStream,
-                                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                    _isShuffle = snapshot.data;
-                                    if (_isShuffle) {
-                                      return Icon(
-                                        Icons.shuffle,
-                                        color: Colors.red[600],
-                                        size: 35,
-                                      );
-                                    } else {
-                                      return const Icon(
-                                        Icons.shuffle,
-                                        size: 30,
-                                        color: Colors.white,
-                                      );
-                                    }
-                                  },
-                                )),
+                              ),
+                            ),
                             IconButton(
                                 onPressed: () async {
                                   if (GetAllSongController
@@ -223,13 +232,13 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                     return const Icon(
                                       Icons.pause,
                                       color: Colors.white,
-                                      size: 50,
+                                      size: 60,
                                     );
                                   } else {
                                     return const Icon(
                                       Icons.play_arrow,
                                       color: Colors.white,
-                                      size: 50,
+                                      size: 60,
                                     );
                                   }
                                 },
@@ -271,7 +280,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                     return Icon(
                                       Icons.repeat_one,
                                       color: Colors.red[600],
-                                      size: 30,
+                                      size: 40,
                                     );
                                   } else {
                                     return const Icon(

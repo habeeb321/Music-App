@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/screens/homescreen/all_songs_listview.dart';
-import 'package:music_app/screens/homescreen/recently_played.dart';
+import 'package:music_app/screens/homescreen/library_screen.dart';
 import 'package:music_app/screens/settings/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              RecentlyPlayed(),
+              LibrarySection(),
               SizedBox(
                 height: 10,
               ),

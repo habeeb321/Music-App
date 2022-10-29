@@ -107,7 +107,7 @@ class FavoriteScreen extends StatelessWidget {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     duration: Duration(
-                                      microseconds: 34000,
+                                      seconds: 1,
                                     ),
                                   );
                                   ScaffoldMessenger.of(context)
