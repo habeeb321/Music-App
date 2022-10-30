@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/screens/homescreen/all_songs_listview.dart';
 import 'package:music_app/screens/homescreen/library_screen.dart';
-import 'package:music_app/screens/settings/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,16 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text('Home'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SettingScreen();
-              }));
-            },
-            icon: const Icon(Icons.settings),
-          )
-        ],
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

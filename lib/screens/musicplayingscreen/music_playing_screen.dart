@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
+import 'package:music_app/screens/miniplayer/mini_player.dart';
 import 'package:music_app/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -57,7 +59,11 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: (() => Navigator.pop(context)),
+            onPressed: () {
+              setState(() {});
+              Navigator.pop(context);
+              FavoriteDb.favoriteSongs.notifyListeners();
+            },
             icon: const Icon(Icons.arrow_back_ios),
           ),
           backgroundColor: Colors.transparent,
@@ -74,9 +80,11 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                     child: Center(
                       child: GetAllSongController.audioPlayer.playing
                           ? Lottie.asset(
-                              'assets/81966-girl-listening-to-music.json',animate: true)
+                              'assets/81966-girl-listening-to-music.json',
+                              animate: true)
                           : Lottie.asset(
-                              'assets/81966-girl-listening-to-music.json',animate: false),
+                              'assets/81966-girl-listening-to-music.json',
+                              animate: false),
                     ),
                   ),
                   Expanded(
@@ -210,7 +218,6 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                 )),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.blue,
                                   backgroundColor: Colors.red.shade600,
                                   shape: const CircleBorder()),
                               onPressed: () async {

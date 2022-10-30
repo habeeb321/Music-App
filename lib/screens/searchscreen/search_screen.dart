@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
-import 'package:music_app/screens/settings/settings_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -32,16 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text('Search'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SettingScreen();
-              }));
-            },
-            icon: const Icon(Icons.settings),
-          )
-        ],
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -52,6 +42,10 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Column(
               children: [
                 CupertinoSearchTextField(
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.only(top: 4),
+                    child: Icon(Icons.search,),
+                  ),
                   itemSize: 20,
                   backgroundColor: const Color(0xFFF0EFFF),
                   onChanged: (value) => search(value),

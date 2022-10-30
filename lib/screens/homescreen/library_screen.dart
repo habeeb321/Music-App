@@ -43,7 +43,7 @@ class LibrarySection extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder:(context) => PlaylistScreen(),)),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder:(context) => const PlaylistScreen(),)),
               child: Container(
                 height: 100,
                 width: 100,

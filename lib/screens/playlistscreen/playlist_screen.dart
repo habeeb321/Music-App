@@ -2,98 +2,118 @@ import 'package:flutter/material.dart';
 import 'package:music_app/screens/playlistscreen/list_of_playlist.dart';
 import 'package:music_app/screens/settings/settings_screen.dart';
 
-class PlaylistScreen extends StatelessWidget {
+class PlaylistScreen extends StatefulWidget {
   const PlaylistScreen({super.key});
 
   @override
+  State<PlaylistScreen> createState() => _PlaylistScreenState();
+}
+
+class _PlaylistScreenState extends State<PlaylistScreen> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: const Text('Playlist'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const SettingScreen();
-              }));
-            },
-            icon: const Icon(Icons.settings),
-          )
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+             Color(0xFF01C3CC),
+            Color(0xFF2A89DA),
+            Color(0xFF7D2AE7),
+          ],
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Playlist',
-                style:
-                    TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: const Text('Playlist'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const SettingScreen();
+                }));
+              },
+              icon: const Icon(Icons.settings),
+            ),
+          ],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Playlist',
+                  style:
+                      TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
                 ),
-                tileColor: const Color.fromARGB(255, 212, 233, 244),
-                leading:
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-                title: const Text('Add New Playlist'),
-                onTap: () {
-                  addToPlaylist(context);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    tileColor: const Color.fromARGB(255, 212, 233, 244),
-                    leading: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.playlist_play)),
-                    title: const Text('Playlist 1'),
-                    subtitle: const Text('10 songs'),
-                    trailing: Wrap(children: [
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.edit,
-                          )),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          )),
-                    ]),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const ListOfPlayList();
-                      }));
-                    },
-                  );
-                },
-                itemCount: 1,
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                    height: 10,
-                  );
-                },
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  tileColor: const Color.fromARGB(255, 212, 233, 244),
+                  leading:
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+                  title: const Text('Add New Playlist'),
+                  onTap: () {
+                    addToPlaylist(context);
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      tileColor: const Color.fromARGB(255, 212, 233, 244),
+                      leading: IconButton(
+                          onPressed: () {}, icon: const Icon(Icons.playlist_play)),
+                      title: const Text('Playlist 1'),
+                      subtitle: const Text('10 songs'),
+                      trailing: Wrap(children: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.edit,
+                            )),
+                        IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            )),
+                      ]),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const ListOfPlayList();
+                        }));
+                      },
+                    );
+                  },
+                  itemCount: 1,
+                  separatorBuilder: (context, index) {
+                    return const Divider(
+                      height: 10,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

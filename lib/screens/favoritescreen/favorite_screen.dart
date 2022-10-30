@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
-import 'package:music_app/screens/settings/settings_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -10,7 +9,6 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FocusManager.instance.primaryFocus?.unfocus();
     return ValueListenableBuilder(
       valueListenable: FavoriteDb.favoriteSongs,
       builder: (BuildContext ctx, List<SongModel> favoriteData, Widget? child) {
@@ -18,16 +16,7 @@ class FavoriteScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             title: const Text('Favorite'),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const SettingScreen();
-                  }));
-                },
-                icon: const Icon(Icons.settings),
-              )
-            ],
+            centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
