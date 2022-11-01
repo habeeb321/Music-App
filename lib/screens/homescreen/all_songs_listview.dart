@@ -5,6 +5,7 @@ import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/screens/favoritescreen/favorite_button.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
+import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -106,7 +107,11 @@ class _AllSongsListViewState extends State<AllSongsListView> {
               trailing: Wrap(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                        return const PlaylistScreen();
+                      }));
+                    },
                     icon: const Icon(Icons.playlist_add),
                   ),
                   FavoriteButton(
