@@ -4,7 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
-import 'package:music_app/screens/miniplayer/mini_player.dart';
 import 'package:music_app/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 

@@ -22,7 +22,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
   late List<SongModel> songPlaylist;
   @override
   Widget build(BuildContext context) {
-    getAllPlaylist();
+    PlaylistDb.getAllPlaylist();
     return Container(
       height: double.infinity,
       width: double.infinity,
@@ -141,7 +141,6 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                             ),
                             onTap: () {
                               List<SongModel> newMusicList = [...songPlaylist];
-
                               GetAllSongController.audioPlayer.stop();
                               GetAllSongController.audioPlayer.setAudioSource(
                                   GetAllSongController.createSongList(
@@ -155,6 +154,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                             },
                           );
                         },
+                      
                         itemCount: songPlaylist.length,
                         separatorBuilder: (context, index) {
                           return const Divider(
@@ -184,4 +184,5 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
     }
     return plsongs;
   }
+
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/screens/settings/about_music.dart';
 import 'package:music_app/screens/settings/terms_and_conditions.dart';
 
@@ -55,7 +57,7 @@ class SettingScreen extends StatelessWidget {
                 leading: const Icon(Icons.lock_reset_sharp),
                 title: const Text('Reset App'),
                 onTap: () {
-                  resetApp(context);
+                  resetsApp(context);
                 },
               ),
               const SizedBox(
@@ -91,7 +93,7 @@ class SettingScreen extends StatelessWidget {
     );
   }
 
-  Future<void> resetApp(context) async {
+  Future<void> resetsApp(context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -108,7 +110,11 @@ class SettingScreen extends StatelessWidget {
           actions: [
             TextButton(
               child: const Text('Reset'),
-              onPressed: () {},
+              onPressed: () {
+                PlaylistDb.resetApp(context);
+                GetAllSongController.audioPlayer.stop();
+                Navigator.pop(context);
+              },
             ),
             TextButton(
               child: const Text('Cancel'),

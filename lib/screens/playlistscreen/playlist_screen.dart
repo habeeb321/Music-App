@@ -6,7 +6,7 @@ import 'package:music_app/screens/playlistscreen/list_of_playlist.dart';
 import 'package:music_app/screens/settings/settings_screen.dart';
 
 class PlaylistScreen extends StatefulWidget {
-  const PlaylistScreen({super.key});
+  const PlaylistScreen({super.key,});
 
   @override
   State<PlaylistScreen> createState() => _PlaylistScreenState();
@@ -40,6 +40,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               title: const Text('Playlist'),
+              centerTitle: true,
               actions: [
                 IconButton(
                   onPressed: () {
@@ -73,7 +74,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       tileColor: const Color.fromARGB(255, 212, 233, 244),
-                      leading: Icon(Icons.add),
+                      leading: const Icon(Icons.add),
                       title: const Text('Add New Playlist'),
                       onTap: () {
                         addToPlaylist(context);
@@ -106,10 +107,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                         255, 212, 233, 244),
                                     leading: const Icon(Icons.playlist_play),
                                     title: Text(data.name),
-                                    subtitle: const Text('10 songs'),
                                     trailing: Wrap(children: [
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            //editButton();
+                                          },
                                           icon: const Icon(
                                             Icons.edit,
                                           )),
@@ -237,8 +239,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       return;
     } else {
       final music = MuzicModel(name: name, songId: []);
-      addPlaylist(music);
+      PlaylistDb.addPlaylist(music);
       nameController.clear();
     }
   }
+
+
 }
