@@ -6,7 +6,9 @@ import 'package:music_app/screens/playlistscreen/list_of_playlist.dart';
 import 'package:music_app/screens/settings/settings_screen.dart';
 
 class PlaylistScreen extends StatefulWidget {
-  const PlaylistScreen({super.key,});
+  const PlaylistScreen({
+    super.key,
+  });
 
   @override
   State<PlaylistScreen> createState() => _PlaylistScreenState();
@@ -16,6 +18,7 @@ final nameController = TextEditingController();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 class _PlaylistScreenState extends State<PlaylistScreen> {
+  final nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -85,7 +88,10 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     ),
                     Hive.box<MuzicModel>('playlistDb').isEmpty
                         ? const Center(
-                            child: Text('Add Some Playlist'),
+                            child: Text(
+                              'Add Some Playlist',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           )
                         : ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
@@ -109,9 +115,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                     title: Text(data.name),
                                     trailing: Wrap(children: [
                                       IconButton(
-                                          onPressed: () {
-                                            //editButton();
-                                          },
+                                          onPressed: () {},
                                           icon: const Icon(
                                             Icons.edit,
                                           )),
@@ -128,20 +132,20 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                   actions: [
                                                     TextButton(
                                                         onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            const Text('No')),
-                                                    TextButton(
-                                                        onPressed: () {
                                                           musicList
                                                               .deleteAt(index);
                                                           Navigator.pop(
                                                               context);
                                                         },
                                                         child:
-                                                            const Text('Yes'))
+                                                            const Text('Yes')),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child:
+                                                            const Text('No')),
                                                   ],
                                                 );
                                               },
@@ -243,6 +247,4 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       nameController.clear();
     }
   }
-
-
 }

@@ -4,6 +4,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/controller/get_recent_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
+import 'package:music_app/db/functions/playlist_db.dart';
+import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/screens/favoritescreen/favorite_button.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
@@ -17,6 +19,9 @@ class AllSongsListView extends StatefulWidget {
   @override
   State<AllSongsListView> createState() => _AllSongsListViewState();
 }
+
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+TextEditingController playlistController = TextEditingController();
 
 class _AllSongsListViewState extends State<AllSongsListView> {
   @override
@@ -113,10 +118,7 @@ class _AllSongsListViewState extends State<AllSongsListView> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
-                            return const PlaylistScreen();
-                          }));
+                          addPlaylistBottomSheet();
                         },
                         icon: const Icon(Icons.playlist_add),
                       ),
@@ -124,14 +126,19 @@ class _AllSongsListViewState extends State<AllSongsListView> {
                           songFavorite: AllSongsListView.startSong[index]),
                     ],
                   ),
-                  onTap: () {   
+                  onTap: () {
                     GetAllSongController.audioPlayer.setAudioSource(
                         GetAllSongController.createSongList(
                           item.data!,
                         ),
                         initialIndex: index);
                     GetAllSongController.audioPlayer.play();
-                    GetRecentSongController.addRecentlyPlayed(item.data![index].id);
+                    //recent song function
+                    GetRecentSongController.addRecentlyPlayed(
+                        item.data![index].id);
+                    //mostly played function
+
+                    //for navigating to nowplay
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return MusicPlayingScreen(
@@ -152,5 +159,85 @@ class _AllSongsListViewState extends State<AllSongsListView> {
         );
       },
     );
+  }
+
+  Future<void> addPlaylistBottomSheet() async {
+    return showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: SizedBox(
+              height: 192,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Add To Playlist',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )),
+                  const SizedBox(height: 20),
+                  Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: playlistController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 94, 172, 235)),
+                            borderRadius: BorderRadius.circular(15)),
+                        hintText: 'Enter your playlist name',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Enter your playlist name";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton.icon(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            saveButtonPressed();
+                          }
+                        },
+                        icon: const Icon(Icons.check),
+                        label: const Text('Add')),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> saveButtonPressed() async {
+    final name = playlistController.text.trim();
+    if (name.isEmpty) {
+      return;
+    } else {
+      final music = MuzicModel(name: name, songId: []);
+      PlaylistDb.addPlaylist(music);
+      playlistController.clear();
+    }
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const PlaylistScreen()));
   }
 }

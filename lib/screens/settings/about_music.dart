@@ -10,7 +10,7 @@ class AboutMusicScreen extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-         begin: Alignment.topLeft,
+          begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
             Color(0xFF01C3CC),
@@ -27,13 +27,35 @@ class AboutMusicScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: const [
-                  Text('About Muzic',style: TextStyle(color: Colors.white,fontSize: 20),),
+                  Text(
+                    'About Muzic',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
                   Text(
-                      '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. \n\nIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. \n\nLorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                  ''',style: TextStyle(color: Colors.white,fontSize: 15),),
+                      '''
+Welcome to Muzic App, your number one source for music . We're dedicated to providing you the very best quality of sound and the music varient, with an emphasis on new features,playlists and favourites, and a rich user experience.
+
+
+Founded in 2022 by Habeebu Rahman KT, Muzic App is our first major project with a basic performance of music hub and creates a better version in future. Muzic gives you the best music experience that you never had. It includes attractive mode of UI’s and good practices.
+
+
+It gives good quality and had increased the settings to power up the system as well as  to provide better  music rythms.
+
+
+We hope you enjoy our music as much as we enjoy offering them to you. If you have any questions or comments, please don't hesitate to contact us.
+
+
+Sincerely,
+
+
+Habeebu Rahman KT
+
+ ''',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
                 ],
               ),
             ),

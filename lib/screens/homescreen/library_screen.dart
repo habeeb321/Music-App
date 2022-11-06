@@ -1,7 +1,6 @@
 import 'dart:ui';
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:music_app/screens/homescreen/mostly_played.dart';
 import 'package:music_app/screens/homescreen/recently_played.dart';
 import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
 
@@ -38,8 +37,7 @@ class LibrarySection extends StatelessWidget {
                       height: 100,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
-                        image: NetworkImage(
-                            "https://m.media-amazon.com/images/M/MV5BMTU1MjcyMGUtODI3ZS00NTc4LWExNjgtY2ZjZGJlZmUyMmFhXkEyXkFqcGdeQXVyMjkxNzQ1NDI@._V1_FMjpg_UX1000_.jpg"),
+                        image: AssetImage('assets/images/recent image.jpg'),
                         fit: BoxFit.cover,
                       )),
                       child: BackdropFilter(
@@ -63,38 +61,42 @@ class LibrarySection extends StatelessWidget {
                 ],
               ),
             ),
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                      image: NetworkImage(
-                          "https://www.billboard.com/wp-content/uploads/media/marshmello-2017-june-live-billboard-1548.jpg?w=875&h=583&crop=1"),
-                      fit: BoxFit.cover,
-                    )),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                      child: Container(
-                        color: Colors.black.withOpacity(0.1),
+            InkWell(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MostlyPlayed())),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                        image:
+                            AssetImage('assets/images/mostlyplayed image.webp'),
+                        fit: BoxFit.cover,
+                      )),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.1),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 24, top: 30),
-                  child: Text(
-                    'Mostly \nPlayed',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, top: 30),
+                    child: Text(
+                      'Mostly \nPlayed',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             InkWell(
               onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -109,8 +111,7 @@ class LibrarySection extends StatelessWidget {
                       height: 100,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
-                        image: NetworkImage(
-                            "https://thumbs.dreamstime.com/b/music-frame-background-9193486.jpg"),
+                        image: AssetImage('assets/images/playlist image.jpg'),
                         fit: BoxFit.cover,
                       )),
                       child: BackdropFilter(

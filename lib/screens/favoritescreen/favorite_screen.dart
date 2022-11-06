@@ -38,82 +38,97 @@ class FavoriteScreen extends StatelessWidget {
                     valueListenable: FavoriteDb.favoriteSongs,
                     builder: (BuildContext ctx, List<SongModel> favoriteData,
                         Widget? child) {
-                      return ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: favoriteData.length,
-                        itemBuilder: (ctx, index) {
-                          return ListTile(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            minVerticalPadding: 10.0,
-                            tileColor: const Color.fromARGB(255, 212, 231, 255),
-                            contentPadding: const EdgeInsets.all(0),
-                            onTap: () {
-                              List<SongModel> favoriteList = [...favoriteData];
-                              GetAllSongController.audioPlayer.stop();
-                              GetAllSongController.audioPlayer.setAudioSource(
-                                  GetAllSongController.createSongList(
-                                      favoriteList),
-                                  initialIndex: index);
-                              GetAllSongController.audioPlayer.play();
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (ctx) => MusicPlayingScreen(
-                                    songModelList: favoriteList,
+                      if (favoriteData.isEmpty) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 70,left: 10),
+                          child: Column(
+                            children: [
+                              Image.asset('assets/images/nofavorites.png'),
+                              const Text('No Favorite Songs',style: TextStyle(color: Colors.white,fontSize: 20),)
+                            ],
+                          ),
+                        );
+                      } else {
+                        return ListView.separated(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: favoriteData.length,
+                          itemBuilder: (ctx, index) {
+                            return ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              minVerticalPadding: 10.0,
+                              tileColor:
+                                  const Color.fromARGB(255, 212, 231, 255),
+                              contentPadding: const EdgeInsets.all(0),
+                              onTap: () {
+                                List<SongModel> favoriteList = [
+                                  ...favoriteData
+                                ];
+                                GetAllSongController.audioPlayer.stop();
+                                GetAllSongController.audioPlayer.setAudioSource(
+                                    GetAllSongController.createSongList(
+                                        favoriteList),
+                                    initialIndex: index);
+                                GetAllSongController.audioPlayer.play();
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => MusicPlayingScreen(
+                                      songModelList: favoriteList,
+                                    ),
+                                  ),
+                                );
+                              },
+                              leading: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: QueryArtworkWidget(
+                                  id: favoriteData[index].id,
+                                  type: ArtworkType.AUDIO,
+                                  nullArtworkWidget: const Padding(
+                                    padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
+                                    child: Icon(Icons.music_note),
                                   ),
                                 ),
-                              );
-                            },
-                            leading: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: QueryArtworkWidget(
-                                id: favoriteData[index].id,
-                                type: ArtworkType.AUDIO,
-                                nullArtworkWidget: const Padding(
-                                  padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
-                                  child: Icon(Icons.music_note),
-                                ),
                               ),
-                            ),
-                            title: Text(
-                              favoriteData[index].displayNameWOExt,
-                              maxLines: 1,
-                            ),
-                            subtitle: Text(
-                              favoriteData[index].artist.toString(),
-                              maxLines: 1,
-                            ),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  FavoriteDb.favoriteSongs.notifyListeners();
-                                  FavoriteDb.delete(favoriteData[index].id);
-                                  const snackbar = SnackBar(
-                                    backgroundColor: Colors.black,
-                                    content: Text(
-                                      'Song deleted from your favorites',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    duration: Duration(
-                                      seconds: 1,
-                                    ),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackbar);
-                                },
-                                icon: const Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                )),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, index) {
-                          return const Divider(
-                            height: 10.0,
-                          );
-                        },
-                      );
+                              title: Text(
+                                favoriteData[index].displayNameWOExt,
+                                maxLines: 1,
+                              ),
+                              subtitle: Text(
+                                favoriteData[index].artist.toString(),
+                                maxLines: 1,
+                              ),
+                              trailing: IconButton(
+                                  onPressed: () {
+                                    FavoriteDb.favoriteSongs.notifyListeners();
+                                    FavoriteDb.delete(favoriteData[index].id);
+                                    const snackbar = SnackBar(
+                                      backgroundColor: Colors.black,
+                                      content: Text(
+                                        'Song deleted from your favorites',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      duration: Duration(
+                                        seconds: 1,
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackbar);
+                                  },
+                                  icon: const Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  )),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, index) {
+                            return const Divider(
+                              height: 10.0,
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ],

@@ -67,15 +67,20 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                       builder: (BuildContext context, List<SongModel> value,
                           Widget? child) {
                         if (value.isEmpty) {
-                          return const Center(
-                              child: Padding(
-                            padding: EdgeInsets.only(top: 300),
-                            child: Text(
-                              'No Song In Recents',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 100),
+                            child: Column(
+                              children: [
+                                Image.asset('assets/images/no recent.gif'),
+                                const Text(
+                                  'No Song In Recents',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+
+                              ],
                             ),
-                          ));
+                          );
                         } else {
                           final temp = value.reversed.toList();
                           recentSong = temp.toSet().toList();
@@ -133,7 +138,8 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                                       '${recentSong[index].artist == "<unknown>" ? "Unknown Artist" : recentSong[index].artist}',
                                       maxLines: 1,
                                     ),
-                                    trailing: FavoriteButton(songFavorite: recentSong[index]),
+                                    trailing: FavoriteButton(
+                                        songFavorite: recentSong[index]),
                                     onTap: () {
                                       GetAllSongController.audioPlayer
                                           .setAudioSource(

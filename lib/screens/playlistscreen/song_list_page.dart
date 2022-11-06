@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -13,6 +14,7 @@ class SongListPage extends StatefulWidget {
 const colorw = Colors.white;
 
 class _SongListPageState extends State<SongListPage> {
+  bool isPlaying = true;
   final OnAudioQuery audioQuery = OnAudioQuery();
   @override
   Widget build(BuildContext context) {
@@ -111,11 +113,22 @@ class _SongListPageState extends State<SongListPage> {
                             '${item.data![index].artist == "<unknown>" ? "Unknown Artist" : item.data![index].artist}',
                             maxLines: 1,
                           ),
-                          trailing: IconButton(
-                            onPressed: () {
-                              songAddToPlaylist(item.data![index]);
-                            },
-                            icon: const Icon(Icons.add),
+                          trailing: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    songAddToPlaylist(item.data![index]);
+                                    PlaylistDb.playlistNotifier.notifyListeners();
+                                  });
+                                },
+                                icon: !widget.playlist
+                                        .isValueIn(item.data![index].id)
+                                    ? const Icon(Icons.add)
+                                    : const Padding(
+                                      padding: EdgeInsets.only(bottom: 15),
+                                      child: Icon(Icons.minimize),
+                                    )),
                           ),
                         );
                       },

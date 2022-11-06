@@ -3,7 +3,10 @@ import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
+import 'package:music_app/db/functions/playlist_db.dart';
+import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
+import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
 import 'package:music_app/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -16,6 +19,9 @@ class MusicPlayingScreen extends StatefulWidget {
   @override
   State<MusicPlayingScreen> createState() => _MusicPlayingScreenState();
 }
+
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+TextEditingController playlistController = TextEditingController();
 
 class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
   Duration _duration = const Duration();
@@ -118,7 +124,9 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                     songFavoriteMusicPlaying:
                                         widget.songModelList[currentIndex]),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                  addPlaylistBottomSheet();
+                                  },
                                   icon: const Icon(
                                     Icons.playlist_add,
                                     color: Colors.white,
@@ -235,16 +243,22 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                 builder: (context, snapshot) {
                                   bool? playingStage = snapshot.data;
                                   if (playingStage != null && playingStage) {
-                                    return const Icon(
-                                      Icons.pause,
-                                      color: Colors.white,
-                                      size: 60,
+                                    return const Padding(
+                                      padding: EdgeInsets.all(6.0),
+                                      child: Icon(
+                                        Icons.pause,
+                                        color: Colors.white,
+                                        size: 60,
+                                      ),
                                     );
                                   } else {
-                                    return const Icon(
-                                      Icons.play_arrow,
-                                      color: Colors.white,
-                                      size: 60,
+                                    return const Padding(
+                                      padding: EdgeInsets.all(6.0),
+                                      child: Icon(
+                                        Icons.play_arrow,
+                                        color: Colors.white,
+                                        size: 60,
+                                      ),
                                     );
                                   }
                                 },
@@ -310,6 +324,86 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> addPlaylistBottomSheet() async {
+    return showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: SizedBox(
+              height: 192,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Add To Playlist',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )),
+                  const SizedBox(height: 20),
+                  Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: playlistController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 94, 172, 235)),
+                            borderRadius: BorderRadius.circular(15)),
+                        hintText: 'Enter your playlist name',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Enter your playlist name";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton.icon(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            saveButtonPressed();
+                          }
+                        },
+                        icon: const Icon(Icons.check),
+                        label: const Text('Add')),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+   Future<void> saveButtonPressed() async {
+    final name = playlistController.text.trim();
+    if (name.isEmpty) {
+      return;
+    } else {
+      final music = MuzicModel(name: name, songId: []);
+      PlaylistDb.addPlaylist(music);
+      playlistController.clear();
+    }
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const PlaylistScreen()));
   }
 
   void changeToSeconds(int seconds) {

@@ -8,10 +8,10 @@ import 'package:music_app/screens/splashscreen/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
   if (!Hive.isAdapterRegistered(MuzicModelAdapter().typeId)) {
     Hive.registerAdapter(MuzicModelAdapter());
   }
+  await Hive.initFlutter();
   await Hive.openBox<int>('FavoriteDB');
   await Hive.openBox<MuzicModel>('playlistDb');
   await Hive.openBox('recentSongNotifier');
