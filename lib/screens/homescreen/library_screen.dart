@@ -19,9 +19,7 @@ class LibrarySection extends StatelessWidget {
                 fontWeight: FontWeight.w500, color: Colors.white, fontSize: 15),
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

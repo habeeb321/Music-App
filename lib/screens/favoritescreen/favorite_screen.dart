@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/get_recent_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -40,11 +41,15 @@ class FavoriteScreen extends StatelessWidget {
                         Widget? child) {
                       if (favoriteData.isEmpty) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 70,left: 10),
+                          padding: const EdgeInsets.only(top: 70, left: 10),
                           child: Column(
                             children: [
                               Image.asset('assets/images/nofavorites.png'),
-                              const Text('No Favorite Songs',style: TextStyle(color: Colors.white,fontSize: 20),)
+                              const Text(
+                                'No Favorite Songs',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
                             ],
                           ),
                         );
@@ -72,6 +77,8 @@ class FavoriteScreen extends StatelessWidget {
                                         favoriteList),
                                     initialIndex: index);
                                 GetAllSongController.audioPlayer.play();
+                                GetRecentSongController.addRecentlyPlayed(
+                                    favoriteList[index].id);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (ctx) => MusicPlayingScreen(

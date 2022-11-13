@@ -115,20 +115,46 @@ class _SongListPageState extends State<SongListPage> {
                           ),
                           trailing: Padding(
                             padding: const EdgeInsets.only(right: 10),
-                            child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    songAddToPlaylist(item.data![index]);
-                                    PlaylistDb.playlistNotifier.notifyListeners();
-                                  });
-                                },
-                                icon: !widget.playlist
-                                        .isValueIn(item.data![index].id)
-                                    ? const Icon(Icons.add)
-                                    : const Padding(
-                                      padding: EdgeInsets.only(bottom: 15),
-                                      child: Icon(Icons.minimize),
-                                    )),
+                            child: Wrap(
+                              children: [
+                                !widget.playlist.isValueIn(item.data![index].id)
+                                    ? IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            songAddToPlaylist(
+                                                item.data![index]);
+                                            PlaylistDb.playlistNotifier
+                                                .notifyListeners();
+                                          });
+                                        },
+                                        icon: const Icon(Icons.add),
+                                      )
+                                    : IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            widget.playlist.deleteData(
+                                                item.data![index].id);
+                                          });
+                                          const snackBar = SnackBar(
+                                            backgroundColor: Colors.black,
+                                            content: Text(
+                                              'Song deleted from playlist',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 450),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        },
+                                        icon: const Padding(
+                                          padding: EdgeInsets.only(bottom: 25),
+                                          child: Icon(Icons.minimize),
+                                        ),
+                                      ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -152,13 +178,13 @@ class _SongListPageState extends State<SongListPage> {
   void songAddToPlaylist(SongModel data) {
     if (!widget.playlist.isValueIn(data.id)) {
       widget.playlist.add(data.id);
-      const snackbar = SnackBar(
+      const snackbar1 = SnackBar(
           backgroundColor: Colors.black,
           content: Text(
-            'Added to Playlist',
+            'Song added to Playlist',
             style: TextStyle(color: Colors.white),
           ));
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      ScaffoldMessenger.of(context).showSnackBar(snackbar1);
     }
   }
 }

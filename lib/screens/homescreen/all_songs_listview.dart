@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/get_mostlyplayed_controller.dart';
 import 'package:music_app/controller/get_recent_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/db/functions/playlist_db.dart';
@@ -22,6 +23,7 @@ class AllSongsListView extends StatefulWidget {
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 TextEditingController playlistController = TextEditingController();
+int count = 0;
 
 class _AllSongsListViewState extends State<AllSongsListView> {
   @override
@@ -127,17 +129,26 @@ class _AllSongsListViewState extends State<AllSongsListView> {
                     ],
                   ),
                   onTap: () {
+                    // setState(() {
+                    //   count = item.data![index].id;
+                    //   count++;
+                    //   if (count > 2) {
+                    //     mostlyPlayedSong.add(item.data![index]);
+                    //   }
+                    // });
                     GetAllSongController.audioPlayer.setAudioSource(
                         GetAllSongController.createSongList(
                           item.data!,
                         ),
                         initialIndex: index);
+
                     GetAllSongController.audioPlayer.play();
                     //recent song function
                     GetRecentSongController.addRecentlyPlayed(
                         item.data![index].id);
                     //mostly played function
-
+                    GetMostlyPlayedController.addMostlyPlayed(
+                        item.data![index].id);
                     //for navigating to nowplay
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {

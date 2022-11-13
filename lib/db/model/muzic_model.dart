@@ -28,3 +28,17 @@ class MuzicModel extends HiveObject {
     return songId.contains(id);
   }
 }
+
+@HiveType(typeId: 2)
+class EditModel extends HiveObject {
+  EditModel({
+    required this.id,
+    required this.name,
+  });
+
+  @HiveField(0)
+  int id;
+
+  @HiveField(1)
+  String name;
+}

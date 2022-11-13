@@ -154,7 +154,6 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                             },
                           );
                         },
-                      
                         itemCount: songPlaylist.length,
                         separatorBuilder: (context, index) {
                           return const Divider(
@@ -184,5 +183,4 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
     }
     return plsongs;
   }
-
 }

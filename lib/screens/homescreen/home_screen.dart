@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:music_app/screens/homescreen/all_songs_listview.dart';
 import 'package:music_app/screens/homescreen/library_screen.dart';
 import 'package:music_app/screens/homescreen/recently_played.dart';
 import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
 import 'package:music_app/screens/settings/about_music.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +15,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    requestPermission();
+    setState(() {});
+    super.initState();
+  }
+
+  void requestPermission() async {
+    if (!kIsWeb) {
+      bool permissionStatus = await _audioQuery.permissionsStatus();
+      if (!permissionStatus) {
+        await _audioQuery.permissionsRequest();
+      }
+      setState(() {});
+    }
+  }
+
+  final _audioQuery = OnAudioQuery();
+  // void requestPermission() {
+  //   Permission.storage.request();
+  //   setState(() {});
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: Padding(
-                padding: EdgeInsets.only(top: 115,left: 90),
+                padding: EdgeInsets.only(top: 115, left: 90),
                 child: Text(
                   'Muzic App',
                   style: TextStyle(color: Colors.black, fontSize: 20),

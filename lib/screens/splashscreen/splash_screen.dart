@@ -50,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 Future<void> goToBottomNavigation(context) async {
-  await GetRecentSongController.displayRecents();
+  //await GetRecentSongController.displayRecents();
   Timer(const Duration(seconds: 2), (() {
     Navigator.pushReplacement(
         context,

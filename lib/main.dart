@@ -11,10 +11,16 @@ Future<void> main() async {
   if (!Hive.isAdapterRegistered(MuzicModelAdapter().typeId)) {
     Hive.registerAdapter(MuzicModelAdapter());
   }
+  if (!Hive.isAdapterRegistered(EditModelAdapter().typeId)) {
+    Hive.registerAdapter(EditModelAdapter());
+  }
+
   await Hive.initFlutter();
   await Hive.openBox<int>('FavoriteDB');
   await Hive.openBox<MuzicModel>('playlistDb');
   await Hive.openBox('recentSongNotifier');
+  await Hive.openBox('mostlyPlayedNotifier');
+  await Hive.openBox<EditModel>('editPlaylistDb');
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

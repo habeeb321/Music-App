@@ -14,11 +14,11 @@ class PlaylistScreen extends StatefulWidget {
   State<PlaylistScreen> createState() => _PlaylistScreenState();
 }
 
-final nameController = TextEditingController();
+TextEditingController editPlaylistController = TextEditingController();
+TextEditingController nameController = TextEditingController();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 class _PlaylistScreenState extends State<PlaylistScreen> {
-  final nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,9 +69,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500, color: Colors.white),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     ListTile(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -83,9 +81,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                         addToPlaylist(context);
                       },
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                     Hive.box<MuzicModel>('playlistDb').isEmpty
                         ? const Center(
                             child: Text(
@@ -115,7 +111,9 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                     title: Text(data.name),
                                     trailing: Wrap(children: [
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            editPlaylistBottomSheet(index);
+                                          },
                                           icon: const Icon(
                                             Icons.edit,
                                           )),
@@ -131,21 +129,37 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                                                       'Are you sure you want to delete this playlist?'),
                                                   actions: [
                                                     TextButton(
-                                                        onPressed: () {
-                                                          musicList
-                                                              .deleteAt(index);
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            const Text('Yes')),
+                                                      onPressed: () {
+                                                        musicList
+                                                            .deleteAt(index);
+                                                        Navigator.pop(context);
+                                                        const snackBar =
+                                                            SnackBar(
+                                                          backgroundColor:
+                                                              Colors.black,
+                                                          content: Text(
+                                                            'Playlist is deleted',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  350),
+                                                        );
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                snackBar);
+                                                      },
+                                                      child: const Text('Yes'),
+                                                    ),
                                                     TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            const Text('No')),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text('No'),
+                                                    ),
                                                   ],
                                                 );
                                               },
@@ -222,6 +236,15 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                 if (_formKey.currentState!.validate()) {
                   saveButtonPressed();
                   Navigator.pop(context);
+                  const snackBar = SnackBar(
+                    backgroundColor: Colors.black,
+                    content: Text(
+                      'Playlist is added',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    duration: Duration(milliseconds: 450),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
               },
             ),
@@ -237,6 +260,73 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
     );
   }
 
+  Future<void> editPlaylistBottomSheet(int index) async {
+    return showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: SizedBox(
+              height: 192,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Rename Your Playlist',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )),
+                  const SizedBox(height: 20),
+                  Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: editPlaylistController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 94, 172, 235)),
+                            borderRadius: BorderRadius.circular(15)),
+                        hintText: 'Enter new playlist name',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Enter your playlist name";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton.icon(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            onEditButton(context, index);
+                          }
+                        },
+                        icon: const Icon(Icons.check),
+                        label: const Text('Update')),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> saveButtonPressed() async {
     final name = nameController.text.trim();
     if (name.isEmpty) {
@@ -246,5 +336,11 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       PlaylistDb.addPlaylist(music);
       nameController.clear();
     }
+  }
+
+  Future<void> onEditButton(ctx, int index) async {
+    final playEditModel = EditModel(id: index, name: nameController.text);
+    PlaylistDb.editList(index, playEditModel);
+    Navigator.of(context).pop();
   }
 }

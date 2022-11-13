@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
@@ -9,6 +11,8 @@ import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
 import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
 import 'package:music_app/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+
+import '../homescreen/mostly_played.dart';
 
 class MusicPlayingScreen extends StatefulWidget {
   const MusicPlayingScreen({
@@ -28,8 +32,8 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
   Duration _position = const Duration();
 
   bool _isShuffle = false;
-
   int currentIndex = 0;
+  int counter = 0;
 
   @override
   void initState() {
@@ -41,6 +45,20 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
         GetAllSongController.currentIndexes = index;
       }
     });
+
+    if (GetAllSongController.audioPlayer.playing) {
+      setState(() {
+        GetAllSongController.audioPlayer.play();
+        counter = widget.songModelList[currentIndex].id;
+        counter++;
+        if (counter > 2) {
+          mostlyPlayedSong.add(widget.songModelList[currentIndex]);
+        }
+        log(counter.toString());
+      });
+    } else {
+      return;
+    }
     super.initState();
     playSong();
   }
@@ -78,244 +96,236 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Expanded(
+            child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Expanded(
-                    child: Center(
-                      child: GetAllSongController.audioPlayer.playing
-                          ? Lottie.asset(
-                              'assets/81966-girl-listening-to-music.json',
-                              animate: true)
-                          : Lottie.asset(
-                              'assets/81966-girl-listening-to-music.json',
-                              animate: false),
-                    ),
+                  Center(
+                    child: GetAllSongController.audioPlayer.playing
+                        ? Lottie.asset(
+                            'assets/81966-girl-listening-to-music.json',
+                            animate: true)
+                        : Lottie.asset(
+                            'assets/81966-girl-listening-to-music.json',
+                            animate: false),
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnimatedText(
-                          text: widget
-                              .songModelList[currentIndex].displayNameWOExt,
-                          style: const TextStyle(
-                              fontSize: 20, color: Colors.white),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              widget.songModelList[currentIndex].artist
-                                          .toString() ==
-                                      "<unknown>"
-                                  ? "Unknown Artist"
-                                  : widget.songModelList[currentIndex].artist
-                                      .toString(),
-                              style: const TextStyle(color: Colors.white),
-                              maxLines: 1,
-                            ),
-                            Row(
-                              children: [
-                                FavButMusicPlaying(
-                                    songFavoriteMusicPlaying:
-                                        widget.songModelList[currentIndex]),
-                                IconButton(
-                                  onPressed: () {
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.08,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AnimatedText(
+                        text:
+                            widget.songModelList[currentIndex].displayNameWOExt,
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            widget.songModelList[currentIndex].artist
+                                        .toString() ==
+                                    "<unknown>"
+                                ? "Unknown Artist"
+                                : widget.songModelList[currentIndex].artist
+                                    .toString(),
+                            style: const TextStyle(color: Colors.white),
+                            maxLines: 1,
+                          ),
+                          Row(
+                            children: [
+                              FavButMusicPlaying(
+                                  songFavoriteMusicPlaying:
+                                      widget.songModelList[currentIndex]),
+                              IconButton(
+                                onPressed: () {
                                   addPlaylistBottomSheet();
-                                  },
-                                  icon: const Icon(
-                                    Icons.playlist_add,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              _position.toString().split(".")[0],
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            Expanded(
-                              child: Slider(
-                                activeColor:
-                                    const Color.fromARGB(240, 102, 21, 208),
-                                inactiveColor: Colors.grey,
-                                min: const Duration(microseconds: 0)
-                                    .inSeconds
-                                    .toDouble(),
-                                value: _position.inSeconds.toDouble(),
-                                max: _duration.inSeconds.toDouble(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    changeToSeconds(value.toInt());
-                                    value = value;
-                                  });
-                                },
-                              ),
-                            ),
-                            Text(
-                              _duration.toString().split(".")[0],
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                _isShuffle == false
-                                    ? GetAllSongController.audioPlayer
-                                        .setShuffleModeEnabled(true)
-                                    : GetAllSongController.audioPlayer
-                                        .setShuffleModeEnabled(false);
-                              },
-                              icon: StreamBuilder<bool>(
-                                stream: GetAllSongController
-                                    .audioPlayer.shuffleModeEnabledStream,
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  _isShuffle = snapshot.data;
-                                  if (_isShuffle) {
-                                    return Icon(
-                                      Icons.shuffle,
-                                      color: Colors.red[600],
-                                      size: 40,
-                                    );
-                                  } else {
-                                    return const Icon(
-                                      Icons.shuffle,
-                                      size: 30,
-                                      color: Colors.white,
-                                    );
-                                  }
-                                },
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () async {
-                                  if (GetAllSongController
-                                      .audioPlayer.hasPrevious) {
-                                    await GetAllSongController.audioPlayer
-                                        .seekToPrevious();
-                                    await GetAllSongController.audioPlayer
-                                        .play();
-                                  } else {
-                                    await GetAllSongController.audioPlayer
-                                        .play();
-                                  }
                                 },
                                 icon: const Icon(
-                                  Icons.skip_previous,
-                                  size: 40,
+                                  Icons.playlist_add,
                                   color: Colors.white,
-                                )),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.red.shade600,
-                                  shape: const CircleBorder()),
-                              onPressed: () async {
-                                if (GetAllSongController.audioPlayer.playing) {
-                                  await GetAllSongController.audioPlayer
-                                      .pause();
-                                  setState(() {});
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            _position.toString().split(".")[0],
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          Expanded(
+                            child: Slider(
+                              activeColor:
+                                  const Color.fromARGB(240, 102, 21, 208),
+                              inactiveColor: Colors.grey,
+                              min: const Duration(microseconds: 0)
+                                  .inSeconds
+                                  .toDouble(),
+                              value: _position.inSeconds.toDouble(),
+                              max: _duration.inSeconds.toDouble(),
+                              onChanged: (value) {
+                                setState(() {
+                                  changeToSeconds(value.toInt());
+                                  value = value;
+                                });
+                              },
+                            ),
+                          ),
+                          Text(
+                            _duration.toString().split(".")[0],
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              _isShuffle == false
+                                  ? GetAllSongController.audioPlayer
+                                      .setShuffleModeEnabled(true)
+                                  : GetAllSongController.audioPlayer
+                                      .setShuffleModeEnabled(false);
+                            },
+                            icon: StreamBuilder<bool>(
+                              stream: GetAllSongController
+                                  .audioPlayer.shuffleModeEnabledStream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                _isShuffle = snapshot.data;
+                                if (_isShuffle) {
+                                  return Icon(
+                                    Icons.shuffle,
+                                    color: Colors.red[600],
+                                    size: 40,
+                                  );
                                 } else {
-                                  await GetAllSongController.audioPlayer.play();
-                                  setState(() {});
+                                  return const Icon(
+                                    Icons.shuffle,
+                                    size: 30,
+                                    color: Colors.white,
+                                  );
                                 }
                               },
-                              child: StreamBuilder<bool>(
-                                stream: GetAllSongController
-                                    .audioPlayer.playingStream,
-                                builder: (context, snapshot) {
-                                  bool? playingStage = snapshot.data;
-                                  if (playingStage != null && playingStage) {
-                                    return const Padding(
-                                      padding: EdgeInsets.all(6.0),
-                                      child: Icon(
-                                        Icons.pause,
-                                        color: Colors.white,
-                                        size: 60,
-                                      ),
-                                    );
-                                  } else {
-                                    return const Padding(
-                                      padding: EdgeInsets.all(6.0),
-                                      child: Icon(
-                                        Icons.play_arrow,
-                                        color: Colors.white,
-                                        size: 60,
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
                             ),
-                            IconButton(
-                                onPressed: () async {
-                                  if (GetAllSongController
-                                      .audioPlayer.hasNext) {
-                                    await GetAllSongController.audioPlayer
-                                        .seekToNext();
-                                    await GetAllSongController.audioPlayer
-                                        .play();
-                                  } else {
-                                    await GetAllSongController.audioPlayer
-                                        .play();
-                                  }
-                                },
-                                icon: const Icon(
-                                  Icons.skip_next,
-                                  size: 40,
-                                  color: Colors.white,
-                                )),
-                            IconButton(
-                              onPressed: () {
-                                GetAllSongController.audioPlayer.loopMode ==
-                                        LoopMode.one
-                                    ? GetAllSongController.audioPlayer
-                                        .setLoopMode(LoopMode.all)
-                                    : GetAllSongController.audioPlayer
-                                        .setLoopMode(LoopMode.one);
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                if (GetAllSongController
+                                    .audioPlayer.hasPrevious) {
+                                  await GetAllSongController.audioPlayer
+                                      .seekToPrevious();
+                                  await GetAllSongController.audioPlayer.play();
+                                } else {
+                                  await GetAllSongController.audioPlayer.play();
+                                }
                               },
-                              icon: StreamBuilder<LoopMode>(
-                                stream: GetAllSongController
-                                    .audioPlayer.loopModeStream,
-                                builder: (context, snapshot) {
-                                  final loopMode = snapshot.data;
-                                  if (LoopMode.one == loopMode) {
-                                    return Icon(
-                                      Icons.repeat_one,
-                                      color: Colors.red[600],
-                                      size: 40,
-                                    );
-                                  } else {
-                                    return const Icon(
-                                      Icons.repeat,
+                              icon: const Icon(
+                                Icons.skip_previous,
+                                size: 40,
+                                color: Colors.white,
+                              )),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red.shade600,
+                                shape: const CircleBorder()),
+                            onPressed: () async {
+                              if (GetAllSongController.audioPlayer.playing) {
+                                await GetAllSongController.audioPlayer.pause();
+                              } else {
+                                await GetAllSongController.audioPlayer.play();
+                                setState(() {});
+                              }
+                            },
+                            child: StreamBuilder<bool>(
+                              stream: GetAllSongController
+                                  .audioPlayer.playingStream,
+                              builder: (context, snapshot) {
+                                bool? playingStage = snapshot.data;
+                                if (playingStage != null && playingStage) {
+                                  return const Padding(
+                                    padding: EdgeInsets.all(6.0),
+                                    child: Icon(
+                                      Icons.pause,
                                       color: Colors.white,
-                                      size: 30,
-                                    );
-                                  }
-                                },
-                              ),
+                                      size: 60,
+                                    ),
+                                  );
+                                } else {
+                                  return const Padding(
+                                    padding: EdgeInsets.all(6.0),
+                                    child: Icon(
+                                      Icons.play_arrow,
+                                      color: Colors.white,
+                                      size: 60,
+                                    ),
+                                  );
+                                }
+                              },
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                if (GetAllSongController.audioPlayer.hasNext) {
+                                  await GetAllSongController.audioPlayer
+                                      .seekToNext();
+                                  await GetAllSongController.audioPlayer.play();
+                                } else {
+                                  await GetAllSongController.audioPlayer.play();
+                                }
+                              },
+                              icon: const Icon(
+                                Icons.skip_next,
+                                size: 40,
+                                color: Colors.white,
+                              )),
+                          IconButton(
+                            onPressed: () {
+                              GetAllSongController.audioPlayer.loopMode ==
+                                      LoopMode.one
+                                  ? GetAllSongController.audioPlayer
+                                      .setLoopMode(LoopMode.all)
+                                  : GetAllSongController.audioPlayer
+                                      .setLoopMode(LoopMode.one);
+                            },
+                            icon: StreamBuilder<LoopMode>(
+                              stream: GetAllSongController
+                                  .audioPlayer.loopModeStream,
+                              builder: (context, snapshot) {
+                                final loopMode = snapshot.data;
+                                if (LoopMode.one == loopMode) {
+                                  return Icon(
+                                    Icons.repeat_one,
+                                    color: Colors.red[600],
+                                    size: 40,
+                                  );
+                                } else {
+                                  return const Icon(
+                                    Icons.repeat,
+                                    color: Colors.white,
+                                    size: 30,
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -393,7 +403,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
     );
   }
 
-   Future<void> saveButtonPressed() async {
+  Future<void> saveButtonPressed() async {
     final name = playlistController.text.trim();
     if (name.isEmpty) {
       return;

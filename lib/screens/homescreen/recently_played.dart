@@ -77,7 +77,6 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
-
                               ],
                             ),
                           );

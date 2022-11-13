@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/get_recent_song_controller.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -44,7 +45,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 CupertinoSearchTextField(
                   prefixIcon: const Padding(
                     padding: EdgeInsets.only(top: 4),
-                    child: Icon(Icons.search,),
+                    child: Icon(
+                      Icons.search,
+                    ),
                   ),
                   itemSize: 20,
                   backgroundColor: const Color(0xFFF0EFFF),
@@ -91,6 +94,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ),
                                   initialIndex: index);
                               GetAllSongController.audioPlayer.play();
+                              GetRecentSongController.addRecentlyPlayed(
+                                  foundSongs[index].id);
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return MusicPlayingScreen(
@@ -108,7 +113,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         },
                       )
                     : Center(
-                        child: Lottie.asset('assets/108365-search-for-value.json')),
+                        child: Lottie.asset(
+                            'assets/108365-search-for-value.json')),
               ],
             ),
           ),
