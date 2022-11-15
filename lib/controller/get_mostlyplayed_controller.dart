@@ -7,6 +7,7 @@ class GetMostlyPlayedController {
   static ValueNotifier<List<SongModel>> mostlyPlayedNotifier =
       ValueNotifier([]);
   static List<dynamic> mostlyPlayed = [];
+  static List<SongModel> mostlyPlayedSong = [];
 
   static Future<void> addMostlyPlayed(item) async {
     final mostPlayedDb = await Hive.openBox('mostlyPlayedNotifier');

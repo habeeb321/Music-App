@@ -37,6 +37,7 @@ class PlaylistDb {
     await musicDb.clear();
     await playlistDb.clear();
     await recentDb.clear();
+    GetMostlyPlayedController.mostlyPlayedSong.clear();
     GetMostlyPlayedController.mostlyPlayed.clear();
     GetRecentSongController.recentlyPlayed.clear();
     FavoriteDb.favoriteSongs.value.clear();

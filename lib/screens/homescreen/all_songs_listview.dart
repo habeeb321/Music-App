@@ -130,10 +130,11 @@ class _AllSongsListViewState extends State<AllSongsListView> {
                   ),
                   onTap: () {
                     // setState(() {
-                    //   count = item.data![index].id;
+                    //   //count = item.data![index].id;
                     //   count++;
                     //   if (count > 2) {
-                    //     mostlyPlayedSong.add(item.data![index]);
+                    //     GetMostlyPlayedController.mostlyPlayedSong
+                    //         .add(item.data![index]);
                     //   }
                     // });
                     GetAllSongController.audioPlayer.setAudioSource(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/get_mostlyplayed_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
@@ -11,8 +12,6 @@ import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
 import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
 import 'package:music_app/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-
-import '../homescreen/mostly_played.dart';
 
 class MusicPlayingScreen extends StatefulWidget {
   const MusicPlayingScreen({
@@ -46,19 +45,6 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
       }
     });
 
-    if (GetAllSongController.audioPlayer.playing) {
-      setState(() {
-        GetAllSongController.audioPlayer.play();
-        counter = widget.songModelList[currentIndex].id;
-        counter++;
-        if (counter > 2) {
-          mostlyPlayedSong.add(widget.songModelList[currentIndex]);
-        }
-        log(counter.toString());
-      });
-    } else {
-      return;
-    }
     super.initState();
     playSong();
   }
@@ -244,7 +230,32 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                 backgroundColor: Colors.red.shade600,
                                 shape: const CircleBorder()),
                             onPressed: () async {
+                              // if (GetAllSongController.audioPlayer.playing) {
+                              //   setState(() {
+                              //     counter =
+                              //         widget.songModelList[currentIndex].id;
+                              //     counter++;
+                              //     log(counter.toString());
+                              //     if (counter > 2) {
+                              //       GetMostlyPlayedController.mostlyPlayedSong
+                              //           .add(
+                              //               widget.songModelList[currentIndex]);
+                              //     }
+                              //   });
+                              // } else {
+                              //   return;
+                              // }
                               if (GetAllSongController.audioPlayer.playing) {
+                                setState(() {
+                                  //counter = widget.songModelList[currentIndex].id;
+                                  counter++;
+                                  log(counter.toString());
+                                  if (counter > 2) {
+                                    GetMostlyPlayedController.mostlyPlayedSong
+                                        .add(
+                                            widget.songModelList[currentIndex]);
+                                  }
+                                });
                                 await GetAllSongController.audioPlayer.pause();
                               } else {
                                 await GetAllSongController.audioPlayer.play();

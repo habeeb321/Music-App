@@ -13,8 +13,6 @@ class MostlyPlayed extends StatefulWidget {
   State<MostlyPlayed> createState() => _MostlyPlayedState();
 }
 
-List<SongModel> mostlyPlayedSong = [];
-
 class _MostlyPlayedState extends State<MostlyPlayed> {
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
@@ -83,7 +81,7 @@ class _MostlyPlayedState extends State<MostlyPlayed> {
                             ),
                           );
                         } else {
-                          mostlyPlayedSong = value.toSet().toList();
+                          //GetMostlyPlayedController.mostlyPlayedSong = value.toSet().toList();
                           return FutureBuilder<List<SongModel>>(
                             future: _audioQuery.querySongs(
                               sortType: null,
@@ -121,7 +119,8 @@ class _MostlyPlayedState extends State<MostlyPlayed> {
                                     leading: Padding(
                                       padding: const EdgeInsets.only(left: 10),
                                       child: QueryArtworkWidget(
-                                        id: mostlyPlayedSong[index].id,
+                                        id: GetMostlyPlayedController
+                                            .mostlyPlayedSong[index].id,
                                         type: ArtworkType.AUDIO,
                                         nullArtworkWidget: const Padding(
                                           padding:
@@ -131,21 +130,25 @@ class _MostlyPlayedState extends State<MostlyPlayed> {
                                       ),
                                     ),
                                     title: Text(
-                                      mostlyPlayedSong[index].displayNameWOExt,
+                                      GetMostlyPlayedController
+                                          .mostlyPlayedSong[index]
+                                          .displayNameWOExt,
                                       maxLines: 1,
                                     ),
                                     subtitle: Text(
-                                      '${mostlyPlayedSong[index].artist == "<unknown>" ? "Unknown Artist" : mostlyPlayedSong[index].artist}',
+                                      '${GetMostlyPlayedController.mostlyPlayedSong[index].artist == "<unknown>" ? "Unknown Artist" : GetMostlyPlayedController.mostlyPlayedSong[index].artist}',
                                       maxLines: 1,
                                     ),
                                     trailing: FavoriteButton(
-                                        songFavorite: mostlyPlayedSong[index]),
+                                        songFavorite: GetMostlyPlayedController
+                                            .mostlyPlayedSong[index]),
                                     onTap: () {
                                       GetAllSongController.audioPlayer
                                           .setAudioSource(
                                               GetAllSongController
                                                   .createSongList(
-                                                      mostlyPlayedSong),
+                                                      GetMostlyPlayedController
+                                                          .mostlyPlayedSong),
                                               initialIndex: index);
                                       GetAllSongController.audioPlayer.play();
                                       Navigator.push(context,
@@ -158,7 +161,8 @@ class _MostlyPlayedState extends State<MostlyPlayed> {
                                     },
                                   );
                                 },
-                                itemCount: mostlyPlayedSong.length,
+                                itemCount: GetMostlyPlayedController
+                                    .mostlyPlayedSong.length,
                                 separatorBuilder: (context, index) {
                                   return const Divider(
                                     height: 10.0,
