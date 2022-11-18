@@ -69,15 +69,17 @@ class _RecentlyPlayedState extends State<RecentlyPlayed> {
                         if (value.isEmpty) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 100),
-                            child: Column(
-                              children: [
-                                Image.asset('assets/images/no recent.gif'),
-                                const Text(
-                                  'No Song In Recents',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                              ],
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Image.asset('assets/images/no songs.png'),
+                                  const Text(
+                                    'No Song In Recents',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         } else {

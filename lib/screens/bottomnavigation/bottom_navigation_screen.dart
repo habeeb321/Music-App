@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/screens/favoritescreen/favorite_screen.dart';
-import 'package:music_app/screens/homescreen/home_screen.dart';
+import 'package:music_app/screens/homescreen/home/home_screen.dart';
 import 'package:music_app/screens/miniplayer/mini_player.dart';
 import 'package:music_app/screens/searchscreen/search_screen.dart';
 import 'package:music_app/screens/settings/settings_screen.dart';

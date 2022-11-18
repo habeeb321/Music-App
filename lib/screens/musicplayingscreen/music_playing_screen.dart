@@ -44,7 +44,6 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
         GetAllSongController.currentIndexes = index;
       }
     });
-
     super.initState();
     playSong();
   }
@@ -66,18 +65,6 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
         ),
       ),
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              setState(() {});
-              Navigator.pop(context);
-              FavoriteDb.favoriteSongs.notifyListeners();
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Padding(
@@ -85,6 +72,18 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {});
+                        Navigator.pop(context);
+                        FavoriteDb.favoriteSongs.notifyListeners();
+                      },
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      color: Colors.white,
+                    ),
+                  ),
                   Center(
                     child: GetAllSongController.audioPlayer.playing
                         ? Lottie.asset(
@@ -95,7 +94,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                             animate: false),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.08,
+                    height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -174,7 +173,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                         ],
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 8,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -230,27 +229,11 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                 backgroundColor: Colors.red.shade600,
                                 shape: const CircleBorder()),
                             onPressed: () async {
-                              // if (GetAllSongController.audioPlayer.playing) {
-                              //   setState(() {
-                              //     counter =
-                              //         widget.songModelList[currentIndex].id;
-                              //     counter++;
-                              //     log(counter.toString());
-                              //     if (counter > 2) {
-                              //       GetMostlyPlayedController.mostlyPlayedSong
-                              //           .add(
-                              //               widget.songModelList[currentIndex]);
-                              //     }
-                              //   });
-                              // } else {
-                              //   return;
-                              // }
                               if (GetAllSongController.audioPlayer.playing) {
                                 setState(() {
-                                  //counter = widget.songModelList[currentIndex].id;
                                   counter++;
                                   log(counter.toString());
-                                  if (counter > 2) {
+                                  if (counter > 3) {
                                     GetMostlyPlayedController.mostlyPlayedSong
                                         .add(
                                             widget.songModelList[currentIndex]);

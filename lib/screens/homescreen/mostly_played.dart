@@ -69,19 +69,21 @@ class _MostlyPlayedState extends State<MostlyPlayed> {
                         if (value.isEmpty) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 100),
-                            child: Column(
-                              children: [
-                                Image.asset('assets/images/no recent.gif'),
-                                const Text(
-                                  'Most played songs are not available',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                              ],
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Image.asset('assets/images/no songs.png'),
+                                  const Text(
+                                    'Most played songs are not available',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         } else {
-                          //GetMostlyPlayedController.mostlyPlayedSong = value.toSet().toList();
+                          //GetMostlyPlayedController.mostlyPlayedSong.toSet().toList();
                           return FutureBuilder<List<SongModel>>(
                             future: _audioQuery.querySongs(
                               sortType: null,

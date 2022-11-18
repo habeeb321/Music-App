@@ -48,6 +48,8 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
+          title: Text(widget.playlist.name),
+          centerTitle: true,
         ),
         body: SafeArea(
           child: Padding(
@@ -56,34 +58,6 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.playlist.name,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Colors.white),
-                        ),
-                        const SizedBox(height: 10),
-                        ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return SongListPage(
-                                        playlist: widget.playlist);
-                                  },
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.add),
-                            label: const Text('Add Songs')),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: 10),
                   ValueListenableBuilder(
                     valueListenable:
@@ -92,81 +66,110 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                         Widget? child) {
                       songPlaylist = listPlaylist(
                           music.values.toList()[widget.findex].songId);
-                      return ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            minVerticalPadding: 10.0,
-                            tileColor: const Color.fromARGB(255, 212, 231, 255),
-                            contentPadding: const EdgeInsets.all(0),
-                            leading: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: QueryArtworkWidget(
-                                id: songPlaylist[index].id,
-                                type: ArtworkType.AUDIO,
-                                nullArtworkWidget: const Padding(
-                                  padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
-                                  child: Icon(Icons.music_note),
-                                ),
+                      return songPlaylist.isEmpty
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 250, horizontal: 90),
+                              child: Text(
+                                'Add Some Songs',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
                               ),
-                            ),
-                            title: Text(
-                              songPlaylist[index].title,
-                              maxLines: 1,
-                            ),
-                            subtitle: Text(
-                              songPlaylist[index].artist!,
-                              maxLines: 1,
-                            ),
-                            trailing: Wrap(
-                              children: [
-                                FavoriteButton(
-                                  songFavorite: songPlaylist[index],
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    widget.playlist
-                                        .deleteData(songPlaylist[index].id);
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+                            )
+                          : ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                ),
-                              ],
-                            ),
-                            onTap: () {
-                              List<SongModel> newMusicList = [...songPlaylist];
-                              GetAllSongController.audioPlayer.stop();
-                              GetAllSongController.audioPlayer.setAudioSource(
-                                  GetAllSongController.createSongList(
-                                      newMusicList),
-                                  initialIndex: index);
-                              GetAllSongController.audioPlayer.play();
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (ctx) => MusicPlayingScreen(
-                                        songModelList: songPlaylist,
-                                      )));
-                            },
-                          );
-                        },
-                        itemCount: songPlaylist.length,
-                        separatorBuilder: (context, index) {
-                          return const Divider(
-                            height: 10.0,
-                          );
-                        },
-                      );
+                                  minVerticalPadding: 10.0,
+                                  tileColor:
+                                      const Color.fromARGB(255, 212, 231, 255),
+                                  contentPadding: const EdgeInsets.all(0),
+                                  leading: Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: QueryArtworkWidget(
+                                      id: songPlaylist[index].id,
+                                      type: ArtworkType.AUDIO,
+                                      nullArtworkWidget: const Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(15, 5, 5, 5),
+                                        child: Icon(Icons.music_note),
+                                      ),
+                                    ),
+                                  ),
+                                  title: Text(
+                                    songPlaylist[index].title,
+                                    maxLines: 1,
+                                  ),
+                                  subtitle: Text(
+                                    songPlaylist[index].artist!,
+                                    maxLines: 1,
+                                  ),
+                                  trailing: Wrap(
+                                    children: [
+                                      FavoriteButton(
+                                        songFavorite: songPlaylist[index],
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          widget.playlist.deleteData(
+                                              songPlaylist[index].id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    List<SongModel> newMusicList = [
+                                      ...songPlaylist
+                                    ];
+                                    GetAllSongController.audioPlayer.stop();
+                                    GetAllSongController.audioPlayer
+                                        .setAudioSource(
+                                            GetAllSongController.createSongList(
+                                                newMusicList),
+                                            initialIndex: index);
+                                    GetAllSongController.audioPlayer.play();
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (ctx) =>
+                                                MusicPlayingScreen(
+                                                  songModelList: songPlaylist,
+                                                )));
+                                  },
+                                );
+                              },
+                              itemCount: songPlaylist.length,
+                              separatorBuilder: (context, index) {
+                                return const Divider(
+                                  height: 10.0,
+                                );
+                              },
+                            );
                     },
                   )
                 ],
               ),
             ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return SongListPage(playlist: widget.playlist);
+                },
+              ),
+            );
+          },
+          label: const Text('Add Songs'),
         ),
       ),
     );

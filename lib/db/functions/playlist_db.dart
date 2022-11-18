@@ -46,9 +46,9 @@ class PlaylistDb {
         (route) => false);
   }
 
-  static Future<void> editList(int id, EditModel value) async {
-    final playlistDb = Hive.box<EditModel>('editPlaylistDb');
-    await playlistDb.putAt(id, value);
+  static Future<void> editList(int id, MuzicModel value) async {
+    final playlistDb = Hive.box<MuzicModel>('editPlaylistDb');
+    await playlistDb.put(id, value);
     getAllPlaylist();
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_app/screens/homescreen/all_songs_listview.dart';
+import 'package:music_app/screens/homescreen/home/home_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class GetMostlyPlayedController {
@@ -29,10 +29,10 @@ class GetMostlyPlayedController {
     mostlyPlayedNotifier.value.clear();
     mostlyPlayed.clear();
     for (int i = 0; i < MostlyPlayedSongItems.length; i++) {
-      for (int j = 0; j < AllSongsListView.startSong.length; j++) {
-        if (MostlyPlayedSongItems[i] == AllSongsListView.startSong[j].id) {
-          mostlyPlayedNotifier.value.add(AllSongsListView.startSong[j]);
-          mostlyPlayed.add(AllSongsListView.startSong[j]);
+      for (int j = 0; j < startSong.length; j++) {
+        if (MostlyPlayedSongItems[i] == startSong[j].id) {
+          mostlyPlayedNotifier.value.add(startSong[j]);
+          mostlyPlayed.add(startSong[j]);
         }
       }
     }

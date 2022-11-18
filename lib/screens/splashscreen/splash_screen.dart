@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:music_app/controller/get_recent_song_controller.dart';
 import 'package:music_app/screens/bottomnavigation/bottom_navigation_screen.dart';
 
 class SplashScreen extends StatefulWidget {
