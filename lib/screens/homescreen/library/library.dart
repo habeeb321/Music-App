@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:music_app/screens/homescreen/mostly_played.dart';
-import 'package:music_app/screens/homescreen/recently_played.dart';
-import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
+import 'package:music_app/screens/homescreen/library/mostly/mostly_played.dart';
+import 'package:music_app/screens/homescreen/library/recently/recently_played.dart';
+import 'package:music_app/screens/homescreen/library/playlist/playlist_create_screen.dart';
 
 class LibrarySection extends StatelessWidget {
   const LibrarySection({super.key});

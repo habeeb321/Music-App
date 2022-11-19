@@ -5,7 +5,7 @@ import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/screens/favoritescreen/favorite_button.dart';
 import 'package:music_app/screens/musicplayingscreen/music_playing_screen.dart';
-import 'package:music_app/screens/playlistscreen/song_list_page.dart';
+import 'package:music_app/screens/homescreen/library/playlist/playlist_add_song_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class ListOfPlayList extends StatefulWidget {

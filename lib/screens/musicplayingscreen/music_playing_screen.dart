@@ -9,7 +9,7 @@ import 'package:music_app/db/functions/favorite_db.dart';
 import 'package:music_app/db/functions/playlist_db.dart';
 import 'package:music_app/db/model/muzic_model.dart';
 import 'package:music_app/screens/favoritescreen/favbut_musicplaying.dart';
-import 'package:music_app/screens/playlistscreen/playlist_screen.dart';
+import 'package:music_app/screens/homescreen/library/playlist/playlist_create_screen.dart';
 import 'package:music_app/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -37,7 +37,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
   @override
   void initState() {
     GetAllSongController.audioPlayer.currentIndexStream.listen((index) {
-      if (index != null && mounted) {
+      if (index != null) {
         setState(() {
           currentIndex = index;
         });
@@ -233,7 +233,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                                 setState(() {
                                   counter++;
                                   log(counter.toString());
-                                  if (counter > 3) {
+                                  if (counter == 3) {
                                     GetMostlyPlayedController.mostlyPlayedSong
                                         .add(
                                             widget.songModelList[currentIndex]);
