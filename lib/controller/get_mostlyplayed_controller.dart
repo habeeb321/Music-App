@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_app/view/screens/homescreen/allsongs/allsongs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class GetMostlyPlayedController {
+class GetMostlyPlayedController extends GetxController {
   static ValueNotifier<List<SongModel>> mostlyPlayedNotifier =
       ValueNotifier([]);
   static List<dynamic> mostlyPlayed = [];
@@ -25,12 +26,12 @@ class GetMostlyPlayedController {
 
   static Future<void> displayMostlyPlayed() async {
     final mostPlayedDb = await Hive.openBox('mostlyPlayedNotifier');
-    final MostlyPlayedSongItems = mostPlayedDb.values.toList();
+    final mostlyPlayedSongItems = mostPlayedDb.values.toList();
     mostlyPlayedNotifier.value.clear();
     mostlyPlayed.clear();
-    for (int i = 0; i < MostlyPlayedSongItems.length; i++) {
+    for (int i = 0; i < mostlyPlayedSongItems.length; i++) {
       for (int j = 0; j < startSong.length; j++) {
-        if (MostlyPlayedSongItems[i] == startSong[j].id) {
+        if (mostlyPlayedSongItems[i] == startSong[j].id) {
           mostlyPlayedNotifier.value.add(startSong[j]);
           mostlyPlayed.add(startSong[j]);
         }

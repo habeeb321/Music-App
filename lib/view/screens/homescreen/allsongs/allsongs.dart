@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/controller/get_mostlyplayed_controller.dart';
 import 'package:music_app/controller/get_recent_song_controller.dart';
+import 'package:music_app/controller/home_request_permission_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/model/functions/playlist_db.dart';
 import 'package:music_app/model/model/muzic_model.dart';
@@ -10,46 +11,25 @@ import 'package:music_app/view/screens/homescreen/allsongs/drawers.dart';
 import 'package:music_app/view/screens/homescreen/library/library.dart';
 import 'package:music_app/view/screens/homescreen/library/playlist/playlist_create_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../favoritescreen/favorite_button.dart';
 import '../../musicplayingscreen/music_playing_screen.dart';
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 TextEditingController playlistController = TextEditingController();
 List<SongModel> startSong = [];
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
+  HomeRequestPermissionController homeRequestPermissionController =
+      Get.put(HomeRequestPermissionController());
   final OnAudioQuery _audioQuery = OnAudioQuery();
   List<SongModel> allSongs = [];
 
   @override
-  void initState() {
-    requestPermission();
-    super.initState();
-  }
-
-  void requestPermission() async {
-    if (!kIsWeb) {
-      bool permissionStatus = await _audioQuery.permissionsStatus();
-      if (!permissionStatus) {
-        await _audioQuery.permissionsRequest();
-      }
-      setState(() {});
-    }
-    Permission.storage.request();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    FocusManager.instance.primaryFocus?.unfocus();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Obx(controller) => homeRequestPermissionController.requestPermission();
+    });
     return Scaffold(
       backgroundColor: Colors.transparent,
       drawer: Drawer(
@@ -171,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    addPlaylistBottomSheet();
+                                    addPlaylistBottomSheet(context);
                                   },
                                   icon: const Icon(Icons.playlist_add),
                                 ),
@@ -220,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> addPlaylistBottomSheet() async {
+  Future<void> addPlaylistBottomSheet(context) async {
     return showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -296,7 +276,6 @@ class _HomeScreenState extends State<HomeScreen> {
       PlaylistDb.addPlaylist(music);
       playlistController.clear();
     }
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const PlaylistScreen()));
+    Get.off(const PlaylistScreen());
   }
 }

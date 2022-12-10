@@ -19,7 +19,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int currentIndex = 0;
 
   List pages = [
-    const HomeScreen(),
+    HomeScreen(),
     const FavoriteScreen(),
     const SearchScreen(),
     const SettingScreen(),

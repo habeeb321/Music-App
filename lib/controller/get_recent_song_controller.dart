@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_app/view/screens/homescreen/allsongs/allsongs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class GetRecentSongController {
+class GetRecentSongController extends GetxController {
   static ValueNotifier<List<SongModel>> recentSongNotifier = ValueNotifier([]);
   static List<dynamic> recentlyPlayed = [];
 

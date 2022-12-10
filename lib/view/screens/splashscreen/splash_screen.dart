@@ -51,9 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
 Future<void> goToBottomNavigation(context) async {
   //await GetRecentSongController.displayRecents();
   Timer(const Duration(seconds: 2), (() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const BottomNavigationScreen()));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => BottomNavigationScreen()));
   }));
 }
