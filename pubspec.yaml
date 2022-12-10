@@ -37,6 +37,7 @@ dependencies:
     sdk: flutter
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  get: ^4.6.5
   just_audio: ^0.9.29
   just_audio_background: ^0.0.1-beta.7
   lottie: ^1.4.3
@@ -46,7 +47,7 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.3.2
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.9.2
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
@@ -55,7 +56,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/logo.jpg"
+  image_path: "assets/images/play_store_512.png"
 
 
 

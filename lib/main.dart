@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:music_app/db/model/muzic_model.dart';
-import 'package:music_app/screens/splashscreen/splash_screen.dart';
+import 'package:music_app/model/model/muzic_model.dart';
+import 'package:music_app/view/screens/splashscreen/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ Future<void> main() async {
     androidNotificationOngoing: true,
   );
   runApp(DevicePreview(
-    enabled: false,
+    enabled: true,
     builder: (context) => const MyApp(),
   ));
 }
