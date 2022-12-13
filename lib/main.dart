@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:music_app/model/model/muzic_model.dart';
-import 'package:music_app/view/screens/splashscreen/view/splash_screen.dart';
+import 'package:music_app/view/splashscreen/view/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:music_app/viewwer/screens/screens/homescreen/view/allsongs.dart';
+import 'package:music_app/view/homescreen/view/allsongs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class MostlySongDb {
+class GetMostlyPlayedController extends GetxController {
   static ValueNotifier<List<SongModel>> mostlyPlayedNotifier =
       ValueNotifier([]);
   static List<dynamic> mostlyPlayed = [];
@@ -14,14 +14,14 @@ class MostlySongDb {
     final mostPlayedDb = await Hive.openBox('mostlyPlayedNotifier');
     await mostPlayedDb.add(item);
     getMostlyPlayedSongs();
-    mostlyPlayedNotifier.obs;
+    mostlyPlayedNotifier.notifyListeners();
   }
 
   static Future<void> getMostlyPlayedSongs() async {
     final mostPlayedDb = await Hive.openBox('mostlyPlayedNotifier');
     mostlyPlayed = mostPlayedDb.values.toList();
     displayMostlyPlayed();
-    mostlyPlayedNotifier.obs;
+    mostlyPlayedNotifier.notifyListeners();
   }
 
   static Future<void> displayMostlyPlayed() async {
@@ -37,6 +37,6 @@ class MostlySongDb {
         }
       }
     }
-    mostlyPlayedNotifier.obs;
+    mostlyPlayedNotifier.notifyListeners();
   }
 }
