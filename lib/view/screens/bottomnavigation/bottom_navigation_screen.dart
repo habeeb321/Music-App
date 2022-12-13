@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:music_app/controller/bottom_nav_controller.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/view/screens/favoritescreen/favorite_screen.dart';
@@ -8,20 +10,16 @@ import 'package:music_app/view/screens/searchscreen/search_screen.dart';
 import 'package:music_app/view/screens/settings/settings_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class BottomNavigationScreen extends StatefulWidget {
-  const BottomNavigationScreen({super.key});
+class BottomNavigationScreen extends StatelessWidget {
+  BottomNavController bottomNavController = Get.put(BottomNavController());
+  BottomNavigationScreen({super.key});
 
-  @override
-  State<BottomNavigationScreen> createState() => _BottomNavigationScreenState();
-}
-
-class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int currentIndex = 0;
 
   List pages = [
     HomeScreen(),
     const FavoriteScreen(),
-    SearchScreen(),
+    const SearchScreen(),
     const SettingScreen(),
   ];
 
@@ -43,7 +41,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: pages[currentIndex],
+        body: GetBuilder<BottomNavController>(
+          builder: (controller) => pages[bottomNavController.currentIndex],
+        ),
         bottomNavigationBar: ValueListenableBuilder(
           valueListenable: FavoriteDb.favoriteSongs,
           builder:
@@ -78,34 +78,36 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                         topLeft: Radius.circular(20.0),
                         topRight: Radius.circular(20.0),
                       ),
-                      child: BottomNavigationBar(
-                        items: const [
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.home, size: 25), label: 'Home'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.favorite, size: 25),
-                              label: 'Favorite'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.search, size: 25),
-                              label: 'Search'),
-                          BottomNavigationBarItem(
-                              icon: Icon(Icons.settings, size: 25),
-                              label: 'Settings'),
-                        ],
-                        backgroundColor:
-                            const Color.fromARGB(255, 76, 104, 244),
-                        selectedItemColor: Colors.white,
-                        unselectedItemColor: Colors.white70,
-                        showUnselectedLabels: true,
-                        type: BottomNavigationBarType.fixed,
-                        currentIndex: currentIndex,
-                        onTap: (index) {
-                          setState(() {
+                      child: GetBuilder<BottomNavController>(
+                          builder: (controller) {
+                        return BottomNavigationBar(
+                          items: const [
+                            BottomNavigationBarItem(
+                                icon: Icon(Icons.home, size: 25),
+                                label: 'Home'),
+                            BottomNavigationBarItem(
+                                icon: Icon(Icons.favorite, size: 25),
+                                label: 'Favorite'),
+                            BottomNavigationBarItem(
+                                icon: Icon(Icons.search, size: 25),
+                                label: 'Search'),
+                            BottomNavigationBarItem(
+                                icon: Icon(Icons.settings, size: 25),
+                                label: 'Settings'),
+                          ],
+                          backgroundColor:
+                              const Color.fromARGB(255, 76, 104, 244),
+                          selectedItemColor: Colors.white,
+                          unselectedItemColor: Colors.white70,
+                          showUnselectedLabels: true,
+                          type: BottomNavigationBarType.fixed,
+                          currentIndex: currentIndex,
+                          onTap: (index) {
                             currentIndex = index;
-                            FavoriteDb.favoriteSongs.notifyListeners();
-                          });
-                        },
-                      ),
+                            bottomNavController.currentIndex = index;
+                          },
+                        );
+                      }),
                     ),
                   ),
                 ],

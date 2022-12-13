@@ -52,6 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
 Future<void> goToBottomNavigation(context) async {
   //await GetRecentSongController.displayRecents();
   Timer(const Duration(seconds: 2), (() {
-    Get.off(const BottomNavigationScreen());
+    Get.off(BottomNavigationScreen());
   }));
 }
