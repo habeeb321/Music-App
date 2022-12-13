@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_app/view/screens/homescreen/view/allsongs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class RecentSongDb {
+class GetRecentSongController extends GetxController {
   static ValueNotifier<List<SongModel>> recentSongNotifier = ValueNotifier([]);
   static List<dynamic> recentlyPlayed = [];
 
@@ -12,14 +12,14 @@ class RecentSongDb {
     final recentDb = await Hive.openBox('recentSongNotifier');
     await recentDb.add(item);
     getRecentSongs();
-    recentSongNotifier.obs;
+    recentSongNotifier.notifyListeners();
   }
 
   static Future<void> getRecentSongs() async {
     final recentDb = await Hive.openBox('recentSongNotifier');
     recentlyPlayed = recentDb.values.toList();
     displayRecents();
-    recentSongNotifier.obs;
+    recentSongNotifier.notifyListeners();
   }
 
   static Future<void> displayRecents() async {
@@ -35,6 +35,5 @@ class RecentSongDb {
         }
       }
     }
-    recentSongNotifier.obs;
   }
 }
