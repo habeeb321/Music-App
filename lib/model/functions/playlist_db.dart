@@ -42,7 +42,7 @@ class PlaylistDb {
     GetRecentSongController.recentlyPlayed.clear();
     FavoriteDb.favoriteSongs.value.clear();
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const SplashScreen()),
+        MaterialPageRoute(builder: (context) => SplashScreen()),
         (route) => false);
   }
 

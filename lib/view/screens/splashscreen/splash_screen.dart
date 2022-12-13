@@ -1,31 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:music_app/view/screens/bottomnavigation/bottom_navigation_screen.dart';
+import 'package:music_app/controller/splash_controller.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    goToBottomNavigation(context);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+class SplashScreen extends StatelessWidget {
+  SplashController splashController = Get.put(SplashController());
+  SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    splashController.goToBottomNavigation(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -42,16 +26,4 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-}
-
-Future<void> goToBottomNavigation(context) async {
-  //await GetRecentSongController.displayRecents();
-  Timer(const Duration(seconds: 2), (() {
-    Get.off(BottomNavigationScreen());
-  }));
 }
