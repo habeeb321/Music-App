@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:music_app/model/functions/playlist_db.dart';
 import 'package:music_app/model/model/muzic_model.dart';
+import 'package:music_app/view/homescreen/view/library/playlist/controller/playlist_add_song_controller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class SongListPage extends StatefulWidget {
-  const SongListPage({super.key, required this.playlist});
+class SongListPage extends StatelessWidget {
+  PlaylistAddController playlistAddController =
+      Get.put(PlaylistAddController());
+  SongListPage({super.key, required this.playlist});
   final MuzicModel playlist;
 
-  @override
-  State<SongListPage> createState() => _SongListPageState();
-}
+  final colorw = Colors.white;
 
-const colorw = Colors.white;
-
-class _SongListPageState extends State<SongListPage> {
   bool isPlaying = true;
   final OnAudioQuery audioQuery = OnAudioQuery();
   @override
@@ -44,7 +41,7 @@ class _SongListPageState extends State<SongListPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Add Songs',
                       style: TextStyle(
                           color: colorw,
@@ -55,7 +52,7 @@ class _SongListPageState extends State<SongListPage> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.arrow_back_ios,
                           color: colorw,
                         ))
@@ -114,44 +111,45 @@ class _SongListPageState extends State<SongListPage> {
                             '${item.data![index].artist == "<unknown>" ? "Unknown Artist" : item.data![index].artist}',
                             maxLines: 1,
                           ),
-                          trailing: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Wrap(
-                              children: [
-                                !widget.playlist.isValueIn(item.data![index].id)
-                                    ? IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            songAddToPlaylist(
-                                                item.data![index]);
-                                            PlaylistDb.playlistNotifier
-                                                .notifyListeners();
-                                          });
-                                        },
-                                        icon: const Icon(Icons.add),
-                                      )
-                                    : IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            widget.playlist.deleteData(
-                                                item.data![index].id);
-                                          });
-                                          Get.snackbar('Playlist',
-                                              'Song Deleted From Playlist',
-                                              colorText: Colors.white,
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM,
-                                              backgroundColor:
-                                                  Colors.red.shade400);
-                                        },
-                                        icon: const Padding(
-                                          padding: EdgeInsets.only(bottom: 25),
-                                          child: Icon(Icons.minimize),
+                          trailing: GetBuilder<PlaylistAddController>(
+                              builder: (controller) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Wrap(
+                                children: [
+                                  !playlist.isValueIn(item.data![index].id)
+                                      ? IconButton(
+                                          onPressed: () {
+                                            playlistAddController
+                                                .songAddToPlaylist(
+                                                    item.data![index],
+                                                    playlist);
+                                          },
+                                          icon: const Icon(Icons.add),
+                                        )
+                                      : IconButton(
+                                          onPressed: () {
+                                            final data = item.data![index].id;
+                                            playlistAddController
+                                                .deletePlaylist(playlist, data);
+                                            Get.snackbar('Playlist',
+                                                'Song Deleted From Playlist',
+                                                colorText: Colors.white,
+                                                snackPosition:
+                                                    SnackPosition.BOTTOM,
+                                                backgroundColor:
+                                                    Colors.red.shade400);
+                                          },
+                                          icon: const Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 25),
+                                            child: Icon(Icons.minimize),
+                                          ),
                                         ),
-                                      ),
-                              ],
-                            ),
-                          ),
+                                ],
+                              ),
+                            );
+                          }),
                         );
                       },
                       itemCount: item.data!.length,
@@ -169,15 +167,5 @@ class _SongListPageState extends State<SongListPage> {
         )),
       ),
     );
-  }
-
-  void songAddToPlaylist(SongModel data) {
-    if (!widget.playlist.isValueIn(data.id)) {
-      widget.playlist.add(data.id);
-      Get.snackbar('Playlist', 'Song Added To Playlist',
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red.shade400);
-    }
   }
 }
