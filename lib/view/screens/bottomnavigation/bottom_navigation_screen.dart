@@ -21,7 +21,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   List pages = [
     HomeScreen(),
     const FavoriteScreen(),
-    const SearchScreen(),
+    SearchScreen(),
     const SettingScreen(),
   ];
 

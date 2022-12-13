@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/view/screens/homescreen/library/mostly/mostly_played.dart';
 import 'package:music_app/view/screens/homescreen/library/playlist/playlist_create_screen.dart';
 import 'package:music_app/view/screens/homescreen/library/recently/recently_played.dart';
@@ -24,8 +25,7 @@ class LibrarySection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RecentlyPlayed())),
+              onTap: () => Get.to(RecentlyPlayed()),
               child: Stack(
                 children: [
                   ClipRRect(
@@ -97,9 +97,7 @@ class LibrarySection extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const PlaylistScreen(),
-              )),
+              onTap: () => Get.to(const PlaylistScreen()),
               child: Stack(
                 children: [
                   ClipRRect(

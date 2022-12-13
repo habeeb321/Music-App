@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app/view/screens/bottomnavigation/bottom_navigation_screen.dart';
 
@@ -51,7 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
 Future<void> goToBottomNavigation(context) async {
   //await GetRecentSongController.displayRecents();
   Timer(const Duration(seconds: 2), (() {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => BottomNavigationScreen()));
+    Get.off(const BottomNavigationScreen());
   }));
 }

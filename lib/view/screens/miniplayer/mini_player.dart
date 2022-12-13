@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
-import 'package:music_app/controller/mini_player.dart';
+import 'package:music_app/controller/mini_player_controller.dart';
 import 'package:music_app/view/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:music_app/view/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -17,13 +17,8 @@ class MiniPlayer extends StatelessWidget {
     return ListTile(
       tileColor: const Color.fromARGB(255, 151, 195, 249),
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => MusicPlayingScreen(
-              songModelList: GetAllSongController.playingSong,
-            ),
-          ),
-        );
+        Get.to(MusicPlayingScreen(
+            songModelList: GetAllSongController.playingSong));
       },
       leading: Padding(
         padding: const EdgeInsets.only(left: 10),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/model/functions/playlist_db.dart';
@@ -136,12 +137,8 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                                                 newMusicList),
                                             initialIndex: index);
                                     GetAllSongController.audioPlayer.play();
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (ctx) =>
-                                                MusicPlayingScreen(
-                                                  songModelList: songPlaylist,
-                                                )));
+                                    Get.to(MusicPlayingScreen(
+                                        songModelList: songPlaylist));
                                   },
                                 );
                               },
@@ -161,13 +158,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return SongListPage(playlist: widget.playlist);
-                },
-              ),
-            );
+            Get.to(SongListPage(playlist: widget.playlist));
           },
           label: const Text('Add Songs'),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -21,25 +22,16 @@ class _FavoriteButtonState extends State<FavoriteButton> {
             onPressed: () {
               if (FavoriteDb.isFavor(widget.songFavorite)) {
                 FavoriteDb.delete(widget.songFavorite.id);
-                const snackBar = SnackBar(
-                  content: Text(
-                    'Removed From Favorite',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  duration: Duration(milliseconds: 1500),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                Get.snackbar('Favorites', 'Remove From Favorites',
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red.shade400);
               } else {
                 FavoriteDb.add(widget.songFavorite);
-                const snackbar = SnackBar(
-                  backgroundColor: Colors.black,
-                  content: Text(
-                    'Song Added to Favorite',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  duration: Duration(milliseconds: 350),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                Get.snackbar('Favorites', 'Song Added To Favorite',
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red.shade400);
               }
 
               FavoriteDb.favoriteSongs.notifyListeners();

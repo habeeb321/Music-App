@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class FavButMusicPlaying extends StatefulWidget {
   const FavButMusicPlaying({super.key, required this.songFavoriteMusicPlaying});
   final SongModel songFavoriteMusicPlaying;
-
 
   @override
   State<FavButMusicPlaying> createState() => _FavoriteButtonState();
@@ -16,32 +16,23 @@ class _FavoriteButtonState extends State<FavButMusicPlaying> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
         valueListenable: FavoriteDb.favoriteSongs,
-        builder: (BuildContext ctx, List<SongModel> favoriteData, Widget? child) {
+        builder:
+            (BuildContext ctx, List<SongModel> favoriteData, Widget? child) {
           return IconButton(
             onPressed: () {
               if (FavoriteDb.isFavor(widget.songFavoriteMusicPlaying)) {
                 FavoriteDb.delete(widget.songFavoriteMusicPlaying.id);
-                const snackBar = SnackBar(
-                  content: Text(
-                    'Removed From Favorite',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  duration: Duration(milliseconds: 1500),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                Get.snackbar('Favorites', 'Removed From Favorites',
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red.shade400);
               } else {
                 FavoriteDb.add(widget.songFavoriteMusicPlaying);
-                const snackbar = SnackBar(
-                  backgroundColor: Colors.black,
-                  content: Text(
-                    'Song Added to Favorite',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  duration: Duration(milliseconds: 350),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                Get.snackbar('Favorites', 'Song Added To Favorites',
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red.shade400);
               }
-
               FavoriteDb.favoriteSongs.notifyListeners();
             },
             icon: FavoriteDb.isFavor(widget.songFavoriteMusicPlaying)

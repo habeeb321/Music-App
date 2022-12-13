@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/model/functions/playlist_db.dart';
 import 'package:music_app/view/screens/settings/about_music.dart';
@@ -42,10 +43,7 @@ class SettingScreen extends StatelessWidget {
                   leading: const Icon(Icons.info),
                   title: const Text('About Muzic'),
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const AboutMusicScreen();
-                    }));
+                    Get.to(const AboutMusicScreen());
                   }),
               const SizedBox(
                 height: 10,
@@ -70,9 +68,7 @@ class SettingScreen extends StatelessWidget {
                 leading: const Icon(Icons.feed),
                 title: const Text('Terms and conditions'),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const TermsAndConditionScreen();
-                  }));
+                  Get.to(const TermsAndConditionScreen());
                 },
               ),
               const SizedBox(
@@ -113,13 +109,13 @@ class SettingScreen extends StatelessWidget {
               onPressed: () {
                 PlaylistDb.resetApp(context);
                 GetAllSongController.audioPlayer.stop();
-                Navigator.pop(context);
+                Get.back();
               },
             ),
             TextButton(
               child: const Text('Cancel'),
               onPressed: () {
-                Navigator.pop(context);
+                Get.back();
               },
             ),
           ],

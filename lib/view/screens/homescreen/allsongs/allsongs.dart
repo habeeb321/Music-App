@@ -173,12 +173,8 @@ class HomeScreen extends StatelessWidget {
                               GetMostlyPlayedController.addMostlyPlayed(
                                   item.data![index].id);
                               //for navigating to nowplay
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return MusicPlayingScreen(
-                                  songModelList: item.data!,
-                                );
-                              }));
+                              Get.to(MusicPlayingScreen(
+                                  songModelList: item.data!));
                             },
                           );
                         },

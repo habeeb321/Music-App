@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:music_app/model/model/muzic_model.dart';
 import 'package:music_app/view/screens/homescreen/library/playlist/playlist_added_song_screen.dart';
@@ -43,23 +44,17 @@ class PlaylistListListView extends StatelessWidget {
                             TextButton(
                               onPressed: () {
                                 musicList.deleteAt(index);
-                                Navigator.pop(context);
-                                const snackBar = SnackBar(
-                                  backgroundColor: Colors.black,
-                                  content: Text(
-                                    'Playlist is deleted',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  duration: Duration(milliseconds: 350),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                Get.back();
+                                Get.snackbar('Playlist', 'Playlist Is Deleted',
+                                    colorText: Colors.white,
+                                    snackPosition: SnackPosition.BOTTOM,
+                                    backgroundColor: Colors.red.shade400);
                               },
                               child: const Text('Yes'),
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pop(context);
+                                Get.back();
                               },
                               child: const Text('No'),
                             ),
@@ -73,12 +68,7 @@ class PlaylistListListView extends StatelessWidget {
                     color: Colors.red,
                   )),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ListOfPlayList(
-                    findex: index,
-                    playlist: data,
-                  );
-                }));
+                Get.to(ListOfPlayList(playlist: data, findex: index));
               },
             );
           },

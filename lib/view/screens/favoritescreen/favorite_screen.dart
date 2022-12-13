@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/controller/get_recent_song_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
@@ -110,18 +111,11 @@ class FavoriteScreen extends StatelessWidget {
                                   onPressed: () {
                                     FavoriteDb.favoriteSongs.notifyListeners();
                                     FavoriteDb.delete(favoriteData[index].id);
-                                    const snackbar = SnackBar(
-                                      backgroundColor: Colors.black,
-                                      content: Text(
-                                        'Song deleted from your favorites',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      duration: Duration(
-                                        seconds: 1,
-                                      ),
-                                    );
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackbar);
+                                    Get.snackbar('Favorites',
+                                        'Song Deleted From Your Favorites',
+                                        colorText: Colors.white,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red.shade400);
                                   },
                                   icon: const Icon(
                                     Icons.favorite,

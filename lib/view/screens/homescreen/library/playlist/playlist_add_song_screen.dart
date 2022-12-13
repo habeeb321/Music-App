@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/model/functions/playlist_db.dart';
 import 'package:music_app/model/model/muzic_model.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -135,18 +136,13 @@ class _SongListPageState extends State<SongListPage> {
                                             widget.playlist.deleteData(
                                                 item.data![index].id);
                                           });
-                                          const snackBar = SnackBar(
-                                            backgroundColor: Colors.black,
-                                            content: Text(
-                                              'Song deleted from playlist',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 450),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
+                                          Get.snackbar('Playlist',
+                                              'Song Deleted From Playlist',
+                                              colorText: Colors.white,
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              backgroundColor:
+                                                  Colors.red.shade400);
                                         },
                                         icon: const Padding(
                                           padding: EdgeInsets.only(bottom: 25),
@@ -178,13 +174,10 @@ class _SongListPageState extends State<SongListPage> {
   void songAddToPlaylist(SongModel data) {
     if (!widget.playlist.isValueIn(data.id)) {
       widget.playlist.add(data.id);
-      const snackbar1 = SnackBar(
-          backgroundColor: Colors.black,
-          content: Text(
-            'Song added to Playlist',
-            style: TextStyle(color: Colors.white),
-          ));
-      ScaffoldMessenger.of(context).showSnackBar(snackbar1);
+      Get.snackbar('Playlist', 'Song Added To Playlist',
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.shade400);
     }
   }
 }

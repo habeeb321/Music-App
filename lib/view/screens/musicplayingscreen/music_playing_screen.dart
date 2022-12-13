@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
@@ -77,7 +78,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
                     child: IconButton(
                       onPressed: () {
                         setState(() {});
-                        Navigator.pop(context);
+                        Get.back();
                         FavoriteDb.favoriteSongs.notifyListeners();
                       },
                       icon: const Icon(Icons.keyboard_arrow_down),
@@ -406,8 +407,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
       PlaylistDb.addPlaylist(music);
       playlistController.clear();
     }
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const PlaylistScreen()));
+    Get.off(const PlaylistScreen());
   }
 
   void changeToSeconds(int seconds) {

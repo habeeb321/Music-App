@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/view/screens/homescreen/library/playlist/playlist_create_screen.dart';
 import 'package:music_app/view/screens/homescreen/library/recently/recently_played.dart';
 import 'package:music_app/view/screens/settings/about_music.dart';
@@ -14,33 +15,30 @@ class HomescreenDrawers extends StatelessWidget {
           leading: const Icon(Icons.home),
           title: const Text('Home'),
           selected: true,
-          onTap: () => {Navigator.pop(context)},
+          onTap: () => {Get.back()},
         ),
         ListTile(
           leading: const Icon(Icons.playlist_add_check),
           title: const Text('Playlists'),
           onTap: () => {
-            Navigator.pop(context),
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const PlaylistScreen()))
+            Get.back(),
+            Get.to(const PlaylistScreen()),
           },
         ),
         ListTile(
           leading: const Icon(Icons.schedule),
           title: const Text('Recents'),
           onTap: () => {
-            Navigator.pop(context),
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => RecentlyPlayed()))
+            Get.back(),
+            Get.to(RecentlyPlayed()),
           },
         ),
         ListTile(
           leading: const Icon(Icons.info),
           title: const Text('About'),
           onTap: () => {
-            Navigator.pop(context),
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AboutMusicScreen()))
+            Get.back(),
+            Get.to(const AboutMusicScreen()),
           },
         ),
       ],

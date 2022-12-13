@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:music_app/model/functions/playlist_db.dart';
 import 'package:music_app/model/model/muzic_model.dart';
@@ -52,10 +53,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const SettingScreen();
-                    }));
+                    Get.to(const SettingScreen());
                   },
                   icon: const Icon(Icons.settings),
                 ),

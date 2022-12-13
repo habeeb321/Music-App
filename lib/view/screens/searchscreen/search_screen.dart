@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/controller/get_recent_song_controller.dart';
@@ -96,12 +97,8 @@ class _SearchScreenState extends State<SearchScreen> {
                               GetAllSongController.audioPlayer.play();
                               GetRecentSongController.addRecentlyPlayed(
                                   foundSongs[index].id);
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return MusicPlayingScreen(
-                                  songModelList: foundSongs,
-                                );
-                              }));
+                              Get.to(MusicPlayingScreen(
+                                  songModelList: foundSongs));
                             },
                           );
                         },
