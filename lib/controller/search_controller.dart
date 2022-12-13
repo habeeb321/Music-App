@@ -1,13 +1,10 @@
 import 'package:get/get.dart';
-import 'package:music_app/view/screens/searchscreen/search_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class SearchController extends GetxController {
-  @override
-  void onInit() {
-    songsLoading();
-    super.onInit();
-  }
+  late List<SongModel> allSong;
+  List<SongModel> foundSongs = [];
+  final audiQuery = OnAudioQuery();
 
   void songsLoading() async {
     allSong = await audiQuery.querySongs(
@@ -16,6 +13,7 @@ class SearchController extends GetxController {
       uriType: UriType.EXTERNAL,
       ignoreCase: true,
     );
+    update();
     foundSongs = allSong;
   }
 
@@ -30,7 +28,6 @@ class SearchController extends GetxController {
               .contains(enteredKeyword.toLowerCase()))
           .toList();
     }
-
     foundSongs = results;
     update();
   }

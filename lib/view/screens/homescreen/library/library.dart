@@ -97,7 +97,7 @@ class LibrarySection extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () => Get.to(const PlaylistScreen()),
+              onTap: () => Get.to(PlaylistScreen()),
               child: Stack(
                 children: [
                   ClipRRect(

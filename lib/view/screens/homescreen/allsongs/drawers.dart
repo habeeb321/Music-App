@@ -22,7 +22,7 @@ class HomescreenDrawers extends StatelessWidget {
           title: const Text('Playlists'),
           onTap: () => {
             Get.back(),
-            Get.to(const PlaylistScreen()),
+            Get.to(PlaylistScreen()),
           },
         ),
         ListTile(

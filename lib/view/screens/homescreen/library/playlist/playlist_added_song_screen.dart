@@ -9,17 +9,11 @@ import 'package:music_app/view/screens/homescreen/library/playlist/playlist_add_
 import 'package:music_app/view/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class ListOfPlayList extends StatefulWidget {
-  const ListOfPlayList(
-      {super.key, required this.playlist, required this.findex});
+class ListOfPlayList extends StatelessWidget {
+  ListOfPlayList({super.key, required this.playlist, required this.findex});
   final MuzicModel playlist;
   final int findex;
 
-  @override
-  State<ListOfPlayList> createState() => _ListOfPlayListState();
-}
-
-class _ListOfPlayListState extends State<ListOfPlayList> {
   late List<SongModel> songPlaylist;
   @override
   Widget build(BuildContext context) {
@@ -49,7 +43,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(widget.playlist.name),
+          title: Text(playlist.name),
           centerTitle: true,
         ),
         body: SafeArea(
@@ -65,8 +59,8 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                         Hive.box<MuzicModel>('playlistDb').listenable(),
                     builder: (BuildContext context, Box<MuzicModel> music,
                         Widget? child) {
-                      songPlaylist = listPlaylist(
-                          music.values.toList()[widget.findex].songId);
+                      songPlaylist =
+                          listPlaylist(music.values.toList()[findex].songId);
                       return songPlaylist.isEmpty
                           ? const Padding(
                               padding: EdgeInsets.symmetric(
@@ -116,7 +110,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          widget.playlist.deleteData(
+                                          playlist.deleteData(
                                               songPlaylist[index].id);
                                         },
                                         icon: const Icon(
@@ -158,7 +152,7 @@ class _ListOfPlayListState extends State<ListOfPlayList> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Get.to(SongListPage(playlist: widget.playlist));
+            Get.to(SongListPage(playlist: playlist));
           },
           label: const Text('Add Songs'),
         ),

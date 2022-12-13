@@ -6,27 +6,16 @@ import 'package:music_app/model/model/muzic_model.dart';
 import 'package:music_app/view/screens/homescreen/library/playlist/playlist_listview.dart';
 import 'package:music_app/view/screens/settings/settings_screen.dart';
 
-class PlaylistScreen extends StatefulWidget {
-  const PlaylistScreen({
-    super.key,
-  });
+class PlaylistScreen extends StatelessWidget {
+  PlaylistScreen({super.key});
 
-  @override
-  State<PlaylistScreen> createState() => _PlaylistScreenState();
-}
-
-TextEditingController editPlaylistController = TextEditingController();
-TextEditingController nameController = TextEditingController();
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-class _PlaylistScreenState extends State<PlaylistScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  TextEditingController editPlaylistController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    FocusManager.instance.primaryFocus?.unfocus();
     return Container(
       height: double.infinity,
       width: double.infinity,

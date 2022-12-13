@@ -407,7 +407,7 @@ class _MusicPlayingScreenState extends State<MusicPlayingScreen> {
       PlaylistDb.addPlaylist(music);
       playlistController.clear();
     }
-    Get.off(const PlaylistScreen());
+    Get.off(PlaylistScreen());
   }
 
   void changeToSeconds(int seconds) {
