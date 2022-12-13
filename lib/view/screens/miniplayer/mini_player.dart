@@ -1,29 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/mini_player.dart';
 import 'package:music_app/view/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:music_app/view/style/text_animation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class MiniPlayer extends StatefulWidget {
-  const MiniPlayer({super.key});
+class MiniPlayer extends StatelessWidget {
+  MiniPlayer({super.key});
 
-  @override
-  State<MiniPlayer> createState() => _MiniPlayerState();
-}
-
-class _MiniPlayerState extends State<MiniPlayer> {
-  @override
-  void initState() {
-    GetAllSongController.audioPlayer.currentIndexStream.listen((index) {
-      if (index != null && mounted) {
-        setState(() {});
-      }
-    });
-    super.initState();
-  }
+  MiniPlayerController miniPlayerController = Get.put(MiniPlayerController());
 
   @override
   Widget build(BuildContext context) {
+    miniPlayerController.miniPlayer();
     return ListTile(
       tileColor: const Color.fromARGB(255, 151, 195, 249),
       onTap: () {
@@ -82,39 +72,35 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   size: 35,
                   color: Colors.black,
                 )),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade600,
-                  shape: const CircleBorder()),
-              onPressed: () async {
-                if (GetAllSongController.audioPlayer.playing) {
-                  await GetAllSongController.audioPlayer.pause();
-                  setState(() {});
-                } else {
-                  await GetAllSongController.audioPlayer.play();
-                  setState(() {});
-                }
-              },
-              child: StreamBuilder<bool>(
-                stream: GetAllSongController.audioPlayer.playingStream,
-                builder: (context, snapshot) {
-                  bool? playingStage = snapshot.data;
-                  if (playingStage != null && playingStage) {
-                    return const Icon(
-                      Icons.pause,
-                      color: Colors.white,
-                      size: 35,
-                    );
-                  } else {
-                    return const Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                      size: 35,
-                    );
-                  }
+            GetBuilder<MiniPlayerController>(builder: (controller) {
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red.shade600,
+                    shape: const CircleBorder()),
+                onPressed: () async {
+                  miniPlayerController.updateFuctions();
                 },
-              ),
-            ),
+                child: StreamBuilder<bool>(
+                  stream: GetAllSongController.audioPlayer.playingStream,
+                  builder: (context, snapshot) {
+                    bool? playingStage = snapshot.data;
+                    if (playingStage != null && playingStage) {
+                      return const Icon(
+                        Icons.pause,
+                        color: Colors.white,
+                        size: 35,
+                      );
+                    } else {
+                      return const Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: 35,
+                      );
+                    }
+                  },
+                ),
+              );
+            }),
             IconButton(
                 onPressed: (() async {
                   if (GetAllSongController.audioPlayer.hasNext) {

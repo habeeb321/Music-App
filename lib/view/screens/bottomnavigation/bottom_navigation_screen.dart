@@ -53,9 +53,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 children: [
                   if (GetAllSongController.audioPlayer.currentIndex != null)
                     Column(
-                      children: const [
+                      children: [
                         MiniPlayer(),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                       ],
                     )
                   else

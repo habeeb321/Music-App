@@ -24,8 +24,8 @@ class LibrarySection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const RecentlyPlayed())),
+              onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => RecentlyPlayed())),
               child: Stack(
                 children: [
                   ClipRRect(
@@ -60,8 +60,8 @@ class LibrarySection extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const MostlyPlayed())),
+              onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MostlyPlayed())),
               child: Stack(
                 children: [
                   ClipRRect(

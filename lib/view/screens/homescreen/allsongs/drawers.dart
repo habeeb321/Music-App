@@ -30,8 +30,8 @@ class HomescreenDrawers extends StatelessWidget {
           title: const Text('Recents'),
           onTap: () => {
             Navigator.pop(context),
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const RecentlyPlayed()))
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => RecentlyPlayed()))
           },
         ),
         ListTile(

@@ -1,35 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/controller/get_recent_song_controller.dart';
+import 'package:music_app/controller/recent_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/view/screens/favoritescreen/favorite_button.dart';
 import 'package:music_app/view/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class RecentlyPlayed extends StatefulWidget {
-  const RecentlyPlayed({super.key});
-
-  @override
-  State<RecentlyPlayed> createState() => _RecentlyPlayedState();
-}
-
-class _RecentlyPlayedState extends State<RecentlyPlayed> {
+class RecentlyPlayed extends StatelessWidget {
+  RecentlyPlayed({super.key});
   final OnAudioQuery _audioQuery = OnAudioQuery();
   static List<SongModel> recentSong = [];
-  @override
-  void initState() {
-    super.initState();
-    init();
-    setState(() {});
-  }
 
-  Future init() async {
-    await GetRecentSongController.getRecentSongs();
-    setState(() {});
-  }
+  RecentController recentController = Get.put(RecentController());
 
   @override
   Widget build(BuildContext context) {
+    recentController.init();
     FavoriteDb.favoriteSongs;
     return Container(
       height: double.infinity,

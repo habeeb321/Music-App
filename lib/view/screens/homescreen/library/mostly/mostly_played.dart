@@ -1,35 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song_controller.dart';
 import 'package:music_app/controller/get_mostlyplayed_controller.dart';
+import 'package:music_app/controller/mostly_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/view/screens/favoritescreen/favorite_button.dart';
 import 'package:music_app/view/screens/musicplayingscreen/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class MostlyPlayed extends StatefulWidget {
-  const MostlyPlayed({super.key});
+class MostlyPlayed extends StatelessWidget {
+  MostlyPlayed({super.key});
 
-  @override
-  State<MostlyPlayed> createState() => _MostlyPlayedState();
-}
-
-class _MostlyPlayedState extends State<MostlyPlayed> {
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
-  @override
-  void initState() {
-    super.initState();
-    init();
-    setState(() {});
-  }
-
-  Future init() async {
-    await GetMostlyPlayedController.getMostlyPlayedSongs();
-    setState(() {});
-  }
+  MostlyController mostlyController = Get.put(MostlyController());
 
   @override
   Widget build(BuildContext context) {
+    mostlyController.init();
     FavoriteDb.favoriteSongs;
     return Container(
       height: double.infinity,
