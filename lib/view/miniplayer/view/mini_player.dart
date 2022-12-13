@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/get_all_song.dart';
 import 'package:music_app/view/miniplayer/controller/mini_player_controller.dart';
 import 'package:music_app/view/musicplayingscreen/view/music_playing_screen.dart';
 import 'package:music_app/view/musicplayingscreen/view/widgets/text_animation.dart';

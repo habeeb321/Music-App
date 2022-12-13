@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:music_app/viewwer/screens/screens/homescreen/view/library/mostly/controller/get_mostlyplayed_controller.dart';
-import 'package:music_app/viewwer/screens/screens/homescreen/view/library/recently/controller/get_recent_song_controller.dart';
+import 'package:music_app/view/homescreen/view/library/mostly/controller/get_mostlyplayed_controller.dart';
+import 'package:music_app/view/homescreen/view/library/recently/controller/get_recent_song_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/model/model/muzic_model.dart';
 import 'package:music_app/view/splashscreen/view/splash_screen.dart';

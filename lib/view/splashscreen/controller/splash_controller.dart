@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:music_app/viewwer/screens/screens/bottomnavigation/view/bottom_navigation_screen.dart';
+import 'package:music_app/view/bottomnavigation/view/bottom_navigation_screen.dart';
 
 class SplashController extends GetxController {
   Future<void> goToBottomNavigation(context) async {

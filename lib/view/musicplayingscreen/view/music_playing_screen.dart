@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
-import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/get_all_song.dart';
 import 'package:music_app/view/homescreen/view/library/mostly/controller/get_mostlyplayed_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/model/functions/playlist_db.dart';

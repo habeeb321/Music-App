@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/get_all_song.dart';
 import 'package:music_app/view/homescreen/view/library/recently/controller/get_recent_song_controller.dart';
 import 'package:music_app/view/searchscreen/controller/search_controller.dart';
 import 'package:music_app/view/musicplayingscreen/view/music_playing_screen.dart';

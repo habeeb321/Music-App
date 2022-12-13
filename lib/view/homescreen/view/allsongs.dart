@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:music_app/controller/get_all_song_controller.dart';
+import 'package:music_app/controller/get_all_song.dart';
 import 'package:music_app/view/homescreen/view/library/mostly/controller/get_mostlyplayed_controller.dart';
 import 'package:music_app/view/homescreen/view/library/recently/controller/get_recent_song_controller.dart';
 import 'package:music_app/view/homescreen/controller/home_request_permission_controller.dart';
