@@ -3,15 +3,9 @@ import 'package:get/get.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-class FavoriteButton extends StatefulWidget {
+class FavoriteButton extends StatelessWidget {
   const FavoriteButton({super.key, required this.songFavorite});
   final SongModel songFavorite;
-
-  @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
-}
-
-class _FavoriteButtonState extends State<FavoriteButton> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -20,14 +14,14 @@ class _FavoriteButtonState extends State<FavoriteButton> {
             (BuildContext ctx, List<SongModel> favoriteData, Widget? child) {
           return IconButton(
             onPressed: () {
-              if (FavoriteDb.isFavor(widget.songFavorite)) {
-                FavoriteDb.delete(widget.songFavorite.id);
+              if (FavoriteDb.isFavor(songFavorite)) {
+                FavoriteDb.delete(songFavorite.id);
                 Get.snackbar('Favorites', 'Remove From Favorites',
                     colorText: Colors.white,
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: Colors.red.shade400);
               } else {
-                FavoriteDb.add(widget.songFavorite);
+                FavoriteDb.add(songFavorite);
                 Get.snackbar('Favorites', 'Song Added To Favorite',
                     colorText: Colors.white,
                     snackPosition: SnackPosition.BOTTOM,
@@ -36,7 +30,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
 
               FavoriteDb.favoriteSongs.notifyListeners();
             },
-            icon: FavoriteDb.isFavor(widget.songFavorite)
+            icon: FavoriteDb.isFavor(songFavorite)
                 ? Icon(
                     Icons.favorite,
                     color: Colors.red[600],
