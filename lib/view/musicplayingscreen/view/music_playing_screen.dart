@@ -78,7 +78,10 @@ class MusicPlayingScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         AnimatedText(
-                          text: songModelList[currentIndex].displayNameWOExt,
+                          text: GetAllSongController
+                              .playingSong[GetAllSongController
+                                  .audioPlayer.currentIndex!]
+                              .displayNameWOExt,
                           style: const TextStyle(
                               fontSize: 20, color: Colors.white),
                         ),
@@ -89,10 +92,16 @@ class MusicPlayingScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              songModelList[currentIndex].artist.toString() ==
+                              GetAllSongController
+                                          .playingSong[GetAllSongController
+                                              .audioPlayer.currentIndex!]
+                                          .artist
+                                          .toString() ==
                                       "<unknown>"
                                   ? "Unknown Artist"
-                                  : songModelList[currentIndex]
+                                  : GetAllSongController
+                                      .playingSong[GetAllSongController
+                                          .audioPlayer.currentIndex!]
                                       .artist
                                       .toString(),
                               style: const TextStyle(color: Colors.white),
