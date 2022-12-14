@@ -4,7 +4,7 @@ import 'package:music_app/view/homescreen/view/allsongs.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class RecentController extends GetxController {
-  RxList<SongModel> recentSongNotifier = RxList<SongModel>([]);
+  List<SongModel> recentSongNotifier = [];
   List<dynamic> recentlyPlayed = [];
 
   @override
@@ -23,29 +23,29 @@ class RecentController extends GetxController {
     final recentDb = await Hive.openBox('recentSongNotifier');
     await recentDb.add(item);
     getRecentSongs();
-    recentSongNotifier.obs;
+    update();
   }
 
   Future<void> getRecentSongs() async {
     final recentDb = await Hive.openBox('recentSongNotifier');
     recentlyPlayed = recentDb.values.toList();
     displayRecents();
-    recentSongNotifier.obs;
+    update();
   }
 
   Future<void> displayRecents() async {
     final recentDb = await Hive.openBox('recentSongNotifier');
     final recentSongItems = recentDb.values.toList();
-    recentSongNotifier.value.clear();
+    recentSongNotifier.clear();
     recentlyPlayed.clear();
     for (int i = 0; i < recentSongItems.length; i++) {
       for (int j = 0; j < startSong.length; j++) {
         if (recentSongItems[i] == startSong[j].id) {
-          recentSongNotifier.value.add(startSong[j]);
+          recentSongNotifier.add(startSong[j]);
           recentlyPlayed.add(startSong[j]);
         }
       }
     }
-    recentSongNotifier.obs;
+    update();
   }
 }

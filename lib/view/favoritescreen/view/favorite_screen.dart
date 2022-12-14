@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song.dart';
-import 'package:music_app/view/homescreen/view/library/recently/controller/get_recent_song_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
+import 'package:music_app/view/homescreen/view/library/recently/controller/recent_controller.dart';
 import 'package:music_app/view/musicplayingscreen/view/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class FavoriteScreen extends StatelessWidget {
-  const FavoriteScreen({super.key});
+  RecentController recentController = Get.put(RecentController());
+  FavoriteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +79,8 @@ class FavoriteScreen extends StatelessWidget {
                                         favoriteList),
                                     initialIndex: index);
                                 GetAllSongController.audioPlayer.play();
-                                GetRecentSongController.addRecentlyPlayed(
-                                    favoriteList[index].id);
+                                recentController
+                                    .addRecentlyPlayed(favoriteList[index].id);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (ctx) => MusicPlayingScreen(

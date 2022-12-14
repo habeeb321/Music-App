@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song.dart';
-import 'package:music_app/view/homescreen/view/library/recently/controller/get_recent_song_controller.dart';
 import 'package:music_app/view/homescreen/view/library/recently/controller/recent_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/view/favoritescreen/view/favorite_button.dart';
@@ -47,14 +46,12 @@ class RecentlyPlayed extends StatelessWidget {
             child: Column(
               children: [
                 FutureBuilder(
-                  future: GetRecentSongController.getRecentSongs(),
+                  future: recentController.getRecentSongs(),
                   builder: (BuildContext context, items) {
-                    return ValueListenableBuilder(
-                      valueListenable:
-                          GetRecentSongController.recentSongNotifier,
-                      builder: (BuildContext context, List<SongModel> value,
-                          Widget? child) {
-                        if (value.isEmpty) {
+                    return GetBuilder<RecentController>(
+                      builder: (controller) {
+                        final recentValue = recentController.recentSongNotifier;
+                        if (recentValue.isEmpty) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 100),
                             child: Center(
@@ -71,7 +68,7 @@ class RecentlyPlayed extends StatelessWidget {
                             ),
                           );
                         } else {
-                          final temp = value.reversed.toList();
+                          final temp = recentValue.reversed.toList();
                           recentSong = temp.toSet().toList();
                           return FutureBuilder<List<SongModel>>(
                             future: _audioQuery.querySongs(

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song.dart';
-import 'package:music_app/view/homescreen/view/library/mostly/controller/get_mostlyplayed_controller.dart';
-import 'package:music_app/view/homescreen/view/library/recently/controller/get_recent_song_controller.dart';
 import 'package:music_app/view/homescreen/controller/home_request_permission_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/model/functions/playlist_db.dart';
 import 'package:music_app/model/model/muzic_model.dart';
 import 'package:music_app/view/homescreen/view/drawers.dart';
 import 'package:music_app/view/homescreen/view/library/library.dart';
+import 'package:music_app/view/homescreen/view/library/mostly/controller/mostly_controller.dart';
 import 'package:music_app/view/homescreen/view/library/playlist/view/playlist_create_screen.dart';
+import 'package:music_app/view/homescreen/view/library/recently/controller/recent_controller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 import '../../favoritescreen/view/favorite_button.dart';
@@ -20,6 +20,8 @@ TextEditingController playlistController = TextEditingController();
 List<SongModel> startSong = [];
 
 class HomeScreen extends StatelessWidget {
+  MostlyController mostlyController = Get.put(MostlyController());
+  RecentController recentController = Get.put(RecentController());
   PermissionController permissionController = Get.put(PermissionController());
   final OnAudioQuery _audioQuery = OnAudioQuery();
   List<SongModel> allSongs = [];
@@ -116,71 +118,67 @@ class HomeScreen extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         allSongs.addAll(item.data!);
-                        return ValueListenableBuilder(
-                          valueListenable:
-                              GetRecentSongController.recentSongNotifier,
-                          builder: (BuildContext context, List<SongModel> value,
-                              Widget? child) {
-                            return ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              minVerticalPadding: 10.0,
-                              tileColor:
-                                  const Color.fromARGB(255, 212, 231, 255),
-                              contentPadding: const EdgeInsets.all(0),
-                              leading: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: QueryArtworkWidget(
-                                  id: item.data![index].id,
-                                  type: ArtworkType.AUDIO,
-                                  nullArtworkWidget: const Padding(
-                                    padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
-                                    child: Icon(Icons.music_note),
-                                  ),
+                        return GetBuilder<RecentController>(
+                            builder: (controller) {
+                          final recentValue =
+                              recentController.recentSongNotifier;
+                          return ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            minVerticalPadding: 10.0,
+                            tileColor: const Color.fromARGB(255, 212, 231, 255),
+                            contentPadding: const EdgeInsets.all(0),
+                            leading: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: QueryArtworkWidget(
+                                id: item.data![index].id,
+                                type: ArtworkType.AUDIO,
+                                nullArtworkWidget: const Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
+                                  child: Icon(Icons.music_note),
                                 ),
                               ),
-                              title: Text(
-                                item.data![index].displayNameWOExt,
-                                maxLines: 1,
-                              ),
-                              subtitle: Text(
-                                '${item.data![index].artist == "<unknown>" ? "Unknown Artist" : item.data![index].artist}',
-                                maxLines: 1,
-                              ),
-                              trailing: Wrap(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      addPlaylistBottomSheet(context);
-                                    },
-                                    icon: const Icon(Icons.playlist_add),
+                            ),
+                            title: Text(
+                              item.data![index].displayNameWOExt,
+                              maxLines: 1,
+                            ),
+                            subtitle: Text(
+                              '${item.data![index].artist == "<unknown>" ? "Unknown Artist" : item.data![index].artist}',
+                              maxLines: 1,
+                            ),
+                            trailing: Wrap(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    addPlaylistBottomSheet(context);
+                                  },
+                                  icon: const Icon(Icons.playlist_add),
+                                ),
+                                FavoriteButton(songFavorite: startSong[index]),
+                              ],
+                            ),
+                            onTap: () {
+                              GetAllSongController.audioPlayer.setAudioSource(
+                                  GetAllSongController.createSongList(
+                                    item.data!,
                                   ),
-                                  FavoriteButton(
-                                      songFavorite: startSong[index]),
-                                ],
-                              ),
-                              onTap: () {
-                                GetAllSongController.audioPlayer.setAudioSource(
-                                    GetAllSongController.createSongList(
-                                      item.data!,
-                                    ),
-                                    initialIndex: index);
+                                  initialIndex: index);
 
-                                GetAllSongController.audioPlayer.play();
-                                //recent song function
-                                GetRecentSongController.addRecentlyPlayed(
-                                    item.data![index].id);
-                                //mostly played function
-                                GetMostlyPlayedController.addMostlyPlayed(
-                                    item.data![index].id);
-                                //for navigating to nowplay
-                                Get.to(MusicPlayingScreen(
-                                    songModelList: item.data!));
-                              },
-                            );
-                          },
-                        );
+                              GetAllSongController.audioPlayer.play();
+                              //recent song function
+                              recentController
+                                  .addRecentlyPlayed(item.data![index].id);
+                              //mostly played function
+                              mostlyController
+                                  .addMostlyPlayed(item.data![index].id);
+                              //for navigating to nowplay
+                              Get.to(MusicPlayingScreen(
+                                  songModelList: item.data!));
+                            },
+                          );
+                        });
                       },
                       itemCount: item.data!.length,
                       separatorBuilder: (context, index) {

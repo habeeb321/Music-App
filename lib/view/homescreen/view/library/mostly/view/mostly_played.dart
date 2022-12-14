@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song.dart';
-import 'package:music_app/view/homescreen/view/library/mostly/controller/get_mostlyplayed_controller.dart';
+import 'package:music_app/view/favoritescreen/view/favorite_button.dart';
 import 'package:music_app/view/homescreen/view/library/mostly/controller/mostly_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
-import 'package:music_app/view/favoritescreen/view/favorite_button.dart';
 import 'package:music_app/view/musicplayingscreen/view/music_playing_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -47,123 +46,117 @@ class MostlyPlayed extends StatelessWidget {
             child: Column(
               children: [
                 FutureBuilder(
-                  future: GetMostlyPlayedController.getMostlyPlayedSongs(),
+                  future: mostlyController.getMostlyPlayedSongs(),
                   builder: (BuildContext context, items) {
-                    return ValueListenableBuilder(
-                      valueListenable:
-                          GetMostlyPlayedController.mostlyPlayedNotifier,
-                      builder: (BuildContext context, List<SongModel> value,
-                          Widget? child) {
-                        if (value.isEmpty) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 100),
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  Image.asset('assets/images/no songs.png'),
-                                  const Text(
-                                    'Most played songs are not available',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        } else {
-                          //GetMostlyPlayedController.mostlyPlayedSong.toSet().toList();
-                          return FutureBuilder<List<SongModel>>(
-                            future: _audioQuery.querySongs(
-                              sortType: null,
-                              orderType: OrderType.ASC_OR_SMALLER,
-                              uriType: UriType.EXTERNAL,
-                              ignoreCase: true,
-                            ),
-                            builder: (context, item) {
-                              if (item.data == null) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                              if (item.data!.isEmpty) {
-                                return const Center(
-                                    child: Text(
-                                  'No Songs Available',
+                    return GetBuilder<MostlyController>(builder: (controller) {
+                      final value = mostlyController.mostlyPlayedNotifier;
+                      if (value.isEmpty) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Image.asset('assets/images/no songs.png'),
+                                const Text(
+                                  'Most played songs are not available',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      } else {
+                        //GetMostlyPlayedController.mostlyPlayedSong.toSet().toList();
+                        return FutureBuilder<List<SongModel>>(
+                          future: _audioQuery.querySongs(
+                            sortType: null,
+                            orderType: OrderType.ASC_OR_SMALLER,
+                            uriType: UriType.EXTERNAL,
+                            ignoreCase: true,
+                          ),
+                          builder: (context, item) {
+                            if (item.data == null) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (item.data!.isEmpty) {
+                              return const Center(
+                                  child: Text(
+                                'No Songs Available',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ));
+                            }
+                            return ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                ));
-                              }
-                              return ListView.separated(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ListTile(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    minVerticalPadding: 10.0,
-                                    tileColor: const Color.fromARGB(
-                                        255, 212, 231, 255),
-                                    contentPadding: const EdgeInsets.all(0),
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: QueryArtworkWidget(
-                                        id: GetMostlyPlayedController
-                                            .mostlyPlayedSong[index].id,
-                                        type: ArtworkType.AUDIO,
-                                        nullArtworkWidget: const Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(15, 5, 5, 5),
-                                          child: Icon(Icons.music_note),
-                                        ),
+                                  minVerticalPadding: 10.0,
+                                  tileColor:
+                                      const Color.fromARGB(255, 212, 231, 255),
+                                  contentPadding: const EdgeInsets.all(0),
+                                  leading: Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: QueryArtworkWidget(
+                                      id: mostlyController
+                                          .mostlyPlayedSong[index].id,
+                                      type: ArtworkType.AUDIO,
+                                      nullArtworkWidget: const Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(15, 5, 5, 5),
+                                        child: Icon(Icons.music_note),
                                       ),
                                     ),
-                                    title: Text(
-                                      GetMostlyPlayedController
-                                          .mostlyPlayedSong[index]
-                                          .displayNameWOExt,
-                                      maxLines: 1,
-                                    ),
-                                    subtitle: Text(
-                                      '${GetMostlyPlayedController.mostlyPlayedSong[index].artist == "<unknown>" ? "Unknown Artist" : GetMostlyPlayedController.mostlyPlayedSong[index].artist}',
-                                      maxLines: 1,
-                                    ),
-                                    trailing: FavoriteButton(
-                                        songFavorite: GetMostlyPlayedController
-                                            .mostlyPlayedSong[index]),
-                                    onTap: () {
-                                      GetAllSongController.audioPlayer
-                                          .setAudioSource(
-                                              GetAllSongController
-                                                  .createSongList(
-                                                      GetMostlyPlayedController
-                                                          .mostlyPlayedSong),
-                                              initialIndex: index);
-                                      GetAllSongController.audioPlayer.play();
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return MusicPlayingScreen(
-                                          songModelList:
-                                              GetAllSongController.playingSong,
-                                        );
-                                      }));
-                                    },
-                                  );
-                                },
-                                itemCount: GetMostlyPlayedController
-                                    .mostlyPlayedSong.length,
-                                separatorBuilder: (context, index) {
-                                  return const Divider(
-                                    height: 10.0,
-                                  );
-                                },
-                              );
-                            },
-                          );
-                        }
-                      },
-                    );
+                                  ),
+                                  title: Text(
+                                    mostlyController.mostlyPlayedSong[index]
+                                        .displayNameWOExt,
+                                    maxLines: 1,
+                                  ),
+                                  subtitle: Text(
+                                    '${mostlyController.mostlyPlayedSong[index].artist == "<unknown>" ? "Unknown Artist" : mostlyController.mostlyPlayedSong[index].artist}',
+                                    maxLines: 1,
+                                  ),
+                                  trailing: FavoriteButton(
+                                      songFavorite: mostlyController
+                                          .mostlyPlayedSong[index]),
+                                  onTap: () {
+                                    GetAllSongController.audioPlayer
+                                        .setAudioSource(
+                                            GetAllSongController.createSongList(
+                                                mostlyController
+                                                    .mostlyPlayedSong),
+                                            initialIndex: index);
+                                    GetAllSongController.audioPlayer.play();
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return MusicPlayingScreen(
+                                        songModelList:
+                                            GetAllSongController.playingSong,
+                                      );
+                                    }));
+                                  },
+                                );
+                              },
+                              itemCount:
+                                  mostlyController.mostlyPlayedSong.length,
+                              separatorBuilder: (context, index) {
+                                return const Divider(
+                                  height: 10.0,
+                                );
+                              },
+                            );
+                          },
+                        );
+                      }
+                    });
                   },
                 ),
               ],

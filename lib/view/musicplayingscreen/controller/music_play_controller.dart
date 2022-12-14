@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:music_app/controller/get_all_song.dart';
-import 'package:music_app/view/homescreen/view/library/mostly/controller/get_mostlyplayed_controller.dart';
+import 'package:music_app/view/homescreen/view/library/mostly/controller/mostly_controller.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class MusicPlayController extends GetxController {
+  MostlyController mostlyController = Get.put(MostlyController());
   late final List<SongModel> songModelList;
 
   Duration duration = const Duration();
@@ -54,8 +55,7 @@ class MusicPlayController extends GetxController {
     counter++;
     log(counter.toString());
     if (counter == 3) {
-      GetMostlyPlayedController.mostlyPlayedSong
-          .add(songModelList[currentIndex]);
+      mostlyController.mostlyPlayedSong.add(songModelList[currentIndex]);
     }
   }
 }

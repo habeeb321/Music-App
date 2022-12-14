@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:music_app/view/homescreen/view/library/mostly/controller/get_mostlyplayed_controller.dart';
-import 'package:music_app/view/homescreen/view/library/recently/controller/get_recent_song_controller.dart';
 import 'package:music_app/model/functions/favorite_db.dart';
 import 'package:music_app/model/model/muzic_model.dart';
+import 'package:music_app/view/homescreen/view/library/mostly/controller/mostly_controller.dart';
+import 'package:music_app/view/homescreen/view/library/recently/controller/recent_controller.dart';
 import 'package:music_app/view/splashscreen/view/splash_screen.dart';
 
 class PlaylistDb {
+  RecentController recentController = Get.put(RecentController());
+  MostlyController mostlyController = Get.put(MostlyController());
   static ValueNotifier<List<MuzicModel>> playlistNotifier = ValueNotifier([]);
 
   static Future<void> addPlaylist(MuzicModel value) async {
@@ -37,9 +40,9 @@ class PlaylistDb {
     await musicDb.clear();
     await playlistDb.clear();
     await recentDb.clear();
-    GetMostlyPlayedController.mostlyPlayedSong.clear();
-    GetMostlyPlayedController.mostlyPlayed.clear();
-    GetRecentSongController.recentlyPlayed.clear();
+    // mostlyController.mostlyPlayedSong.clear();
+    // mostlyController.mostlyPlayed.clear();
+    // RecentController.recentlyPlayed.clear();
     FavoriteDb.favoriteSongs.value.clear();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => SplashScreen()),

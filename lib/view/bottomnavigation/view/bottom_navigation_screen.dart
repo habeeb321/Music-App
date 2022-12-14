@@ -17,7 +17,7 @@ class BottomNavigationScreen extends GetView<FavoriteDbController> {
 
   List pages = [
     HomeScreen(),
-    const FavoriteScreen(),
+    FavoriteScreen(),
     SearchScreen(),
     const SettingScreen(),
   ];
