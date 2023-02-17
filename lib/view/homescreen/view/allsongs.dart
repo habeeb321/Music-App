@@ -67,6 +67,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                
                 const LibrarySection(),
                 const SizedBox(
                   height: 10,
