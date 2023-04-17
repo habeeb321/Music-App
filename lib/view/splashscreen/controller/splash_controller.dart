@@ -7,7 +7,7 @@ class SplashController extends GetxController {
   Future<void> goToBottomNavigation(context) async {
     //await GetRecentSongController.displayRecents();
     Timer(const Duration(seconds: 2), (() {
-      Get.off(BottomNavigationScreen());
+      Get.off(() => BottomNavigationScreen());
     }));
   }
 }

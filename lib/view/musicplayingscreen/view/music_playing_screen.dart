@@ -395,6 +395,6 @@ class MusicPlayingScreen extends StatelessWidget {
       PlaylistDb.addPlaylist(music);
       playlistController.clear();
     }
-    Get.off(PlaylistScreen());
+    Get.off(() => PlaylistScreen());
   }
 }

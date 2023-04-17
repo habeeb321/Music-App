@@ -24,6 +24,8 @@ class HomeScreen extends StatelessWidget {
   final OnAudioQuery _audioQuery = OnAudioQuery();
   List<SongModel> allSongs = [];
 
+  HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -67,7 +69,6 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
                 const LibrarySection(),
                 const SizedBox(
                   height: 10,
@@ -276,6 +277,6 @@ class HomeScreen extends StatelessWidget {
       PlaylistDb.addPlaylist(music);
       playlistController.clear();
     }
-    Get.off(PlaylistScreen());
+    Get.off(() => PlaylistScreen());
   }
 }
