@@ -1,7 +1,5 @@
 # Music App
 
-![App Demo](insert_link_to_demo_gif_or_screenshot)
-
 ## Overview
 
 Muzic App is a Flutter-based project that serves as a music hub, providing a basic yet powerful performance for users to enjoy their favorite music. The project aims to evolve into an even better version in the future.
