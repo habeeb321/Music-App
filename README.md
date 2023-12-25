@@ -1,16 +1,26 @@
-# music_app
+# Music App
 
-A new Flutter project.
+![App Demo](insert_link_to_demo_gif_or_screenshot)
+
+## Overview
+
+Muzic App is a Flutter-based project that serves as a music hub, providing a basic yet powerful performance for users to enjoy their favorite music. The project aims to evolve into an even better version in the future.
+
+## Features
+
+- Fetch music stored on your device
+- Utilize a variety of features for a seamless music experience
+- Implemented with GetX state management following the MVC architecture
+- Tools used: Audio query, Just Audio, Permission handler, Get, Just Audio Background, Hive
+
+## Project Structure
+
+- `lib/`: Contains the main Flutter application code
+- `assets/`: Include any necessary assets such as images or fonts
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Clone the repository:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+git clone https://github.com/habeeb321/Music-App.git
